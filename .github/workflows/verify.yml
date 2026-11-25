@@ -14,12 +14,15 @@ jobs:
       - name: Check both languages against a fresh demo database
         env:
           Database__Mode: Demo
-          ASPNETCORE_ENVIRONMENT: Development
+          ASPNETCORE_ENVIRONMENT: Production
           ASPNETCORE_URLS: http://localhost:5187
         run: |
-          dotnet RailwayTickets/bin/Release/net10.0/RailwayTickets.dll > "$RUNNER_TEMP/rail.log" 2>&1 &
-          trap 'kill $! || true' EXIT
-          for n in {1..45}; do curl -fsS http://localhost:5187/Trips > /dev/null && break; sleep 1; done
+          cd RailwayTickets
+          export Bootstrap__AdminPassword="$(openssl rand -hex 24)"
+          dotnet bin/Release/net10.0/RailwayTickets.dll > "$RUNNER_TEMP/rail.log" 2>&1 &
+          pid=$!
+          trap 'kill $pid 2>/dev/null || true' EXIT
+          for n in {1..45}; do curl -fsS http://localhost:5187/Trips > /dev/null && break; kill -0 "$pid" || { tail -50 "$RUNNER_TEMP/rail.log"; exit 1; }; sleep 1; done
           for culture in uk-UA en-US; do
             curl -fsS -b ".AspNetCore.Culture=c=$culture|uic=$culture" http://localhost:5187/Trips > "$RUNNER_TEMP/page"
             grep -q "lang=\"${culture%%-*}\"" "$RUNNER_TEMP/page"
