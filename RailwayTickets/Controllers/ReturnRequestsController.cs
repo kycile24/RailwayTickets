@@ -53,7 +53,7 @@ namespace RailwayTickets.Controllers
                     ticket.Trip.DepartureDate <= DateTime.Now)
                 {
                     TempData["Error"] =
-                        "Повернення можливе лише для оформленого квитка.";
+                        Ui.Pick("Повернення можливе лише для оформленого квитка.", "Only issued tickets can be refunded.");
 
                     return RedirectToAction(nameof(Index));
                 }
@@ -99,7 +99,7 @@ namespace RailwayTickets.Controllers
             if (string.IsNullOrWhiteSpace(reason))
             {
                 TempData["Error"] =
-                    "Необхідно вказати причину повернення.";
+                    Ui.Pick("Необхідно вказати причину повернення.", "Enter a reason for the refund.");
 
                 return RedirectToAction(
                     nameof(Create),
@@ -113,7 +113,7 @@ namespace RailwayTickets.Controllers
             if (requestExists)
             {
                 TempData["Error"] =
-                    "Для цього квитка вже існує заявка на повернення.";
+                    Ui.Pick("Для цього квитка вже існує заявка на повернення.", "A refund request already exists for this ticket.");
 
                 return RedirectToAction(
                     "Details",
@@ -154,7 +154,7 @@ namespace RailwayTickets.Controllers
 
             if (request.Status != "Очікує")
             {
-                TempData["Error"] = "Заявка вже оброблена.";
+                TempData["Error"] = Ui.Pick("Заявка вже оброблена.", "This request has already been processed.");
                 return RedirectToAction(nameof(Index));
             }
 
@@ -164,7 +164,7 @@ namespace RailwayTickets.Controllers
             if (request.Ticket.Trip.DepartureDate <= DateTime.Now)
             {
                 TempData["Error"] =
-                    "Неможливо схвалити повернення: рейс уже відправився.";
+                    Ui.Pick("Неможливо схвалити повернення: рейс уже відправився.", "Cannot approve this refund: the trip has already departed.");
 
                 return RedirectToAction(nameof(Index));
             }
@@ -173,7 +173,7 @@ namespace RailwayTickets.Controllers
                 request.Ticket.Status != "Оформлено")
             {
                 TempData["Error"] =
-                    "Цей квиток уже повернено або скасовано.";
+                    Ui.Pick("Цей квиток уже повернено або скасовано.", "This ticket has already been refunded or cancelled.");
 
                 return RedirectToAction(nameof(Index));
             }
@@ -187,13 +187,13 @@ namespace RailwayTickets.Controllers
 
             if (!CashDesk.Record(_context, request.Ticket, User.AccountId(), "Повернено", -request.Ticket.Price, request.Id))
             {
-                TempData["ShiftError"] = "Для повернення відкрийте касову зміну.";
+                TempData["ShiftError"] = Ui.Pick("Для повернення відкрийте касову зміну.", "Open a cash shift to issue a refund.");
                 return RedirectToAction("Index", "Register");
             }
 
             _context.SaveChanges();
 
-            TempData["Success"] = "Повернення квитка схвалено.";
+            TempData["Success"] = Ui.Pick("Повернення квитка схвалено.", "Refund approved.");
 
             return RedirectToAction(nameof(Index));
         }
@@ -247,13 +247,13 @@ namespace RailwayTickets.Controllers
 
             if (request.Status != "Очікує")
             {
-                TempData["Error"] = "Можна редагувати тільки заявки, що очікують розгляду.";
+                TempData["Error"] = Ui.Pick("Можна редагувати тільки заявки, що очікують розгляду.", "Only pending requests can be edited, awaiting review.");
                 return RedirectToAction(nameof(Index));
             }
 
             if (string.IsNullOrWhiteSpace(reason))
             {
-                ModelState.AddModelError("", "Вкажіть причину повернення.");
+                ModelState.AddModelError("", Ui.Pick("Вкажіть причину повернення.", "Enter a reason for the refund."));
                 ViewBag.Cashiers = _context.Cashiers.ToList();
                 return View(request);
             }
@@ -261,7 +261,7 @@ namespace RailwayTickets.Controllers
             if (cashierId.HasValue &&
                 !_context.Cashiers.Any(c => c.Id == cashierId.Value))
             {
-                ModelState.AddModelError("", "Касира не знайдено.");
+                ModelState.AddModelError("", Ui.Pick("Касира не знайдено.", "Cashier not found."));
                 ViewBag.Cashiers = _context.Cashiers.ToList();
                 return View(request);
             }
@@ -284,7 +284,7 @@ namespace RailwayTickets.Controllers
 
             if (request.Status == "Схвалено")
             {
-                TempData["Error"] = "Не можна видалити схвалену заявку: квиток уже повернуто.";
+                TempData["Error"] = Ui.Pick("Не можна видалити схвалену заявку: квиток уже повернуто.", "An approved request cannot be deleted: ticket already refunded.");
                 return RedirectToAction(nameof(Index));
             }
 

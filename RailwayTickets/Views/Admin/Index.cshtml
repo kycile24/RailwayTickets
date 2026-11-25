@@ -1,12 +1,12 @@
 ﻿@{
-    ViewData["Title"] = "Адміністратор";
+    ViewData["Title"] = Ui.Pick("Адміністратор", "Administrator");
 }
 
-<h1>Панель адміністратора</h1>
-<a class="btn btn-outline-primary" asp-action="OperationLog">Журнал змін</a>
+<h1>@(Ui.Pick("Панель адміністратора", "Administration"))</h1>
+<a class="btn btn-outline-primary" asp-action="OperationLog">@(Ui.Pick("Журнал змін", "Change history"))</a>
 
 <p class="text-muted">
-    Керування залізничними рейсами та розкладом.
+    @(Ui.Pick("Керування залізничними рейсами та розкладом", "Manage railway trips and timetables")).
 </p>
 
 <hr />
@@ -17,11 +17,11 @@
         <div class="card text-center h-100">
             <div class="card-body">
                 <h2>@ViewBag.TripsCount</h2>
-                <p>Рейсів</p>
+                <p>@(Ui.Pick("Рейсів", "Trips"))</p>
 
                 <a asp-action="Trips"
                    class="btn btn-outline-primary">
-                    Переглянути
+                    @(Ui.Pick("Переглянути", "View"))
                 </a>
             </div>
         </div>
@@ -31,11 +31,11 @@
         <div class="card text-center h-100">
             <div class="card-body">
                 <h2>@ViewBag.TrainsCount</h2>
-                <p>Потягів</p>
+                <p>@(Ui.Pick("Потягів", "Trains"))</p>
 
                 <a asp-action="Trains"
                    class="btn btn-outline-primary">
-                    Переглянути
+                    @(Ui.Pick("Переглянути", "View"))
                 </a>
             </div>
         </div>
@@ -45,11 +45,11 @@
         <div class="card text-center h-100">
             <div class="card-body">
                 <h2>@ViewBag.RoutesCount</h2>
-                <p>Маршрутів</p>
+                <p>@(Ui.Pick("Маршрутів", "Routes"))</p>
 
                 <a asp-action="Routes"
                    class="btn btn-outline-primary">
-                    Переглянути
+                    @(Ui.Pick("Переглянути", "View"))
                 </a>
             </div>
         </div>
@@ -59,12 +59,12 @@
         <div class="card text-center h-100">
             <div class="card-body">
                 <h2>@ViewBag.TicketsCount</h2>
-                <p>Квитків</p>
+                <p>@(Ui.Pick("Квитків", "Tickets"))</p>
 
                 <a asp-controller="Tickets"
                    asp-action="Index"
                    class="btn btn-outline-primary">
-                    Переглянути
+                    @(Ui.Pick("Переглянути", "View"))
                 </a>
             </div>
         </div>
@@ -76,17 +76,17 @@
 
     <a asp-action="CreateTrip"
        class="btn btn-success">
-        Додати новий рейс
+        @(Ui.Pick("Додати новий рейс", "Add new trip"))
     </a>
 
     <a asp-action="Employees"
        class="btn btn-primary">
-        Керування працівниками
+        @(Ui.Pick("Керування працівниками", "Manage employees"))
     </a>
 
     <a asp-action="Carriages"
        class="btn btn-primary">
-        Керування вагонами
+        @(Ui.Pick("Керування вагонами", "Manage carriages"))
     </a>
 
 </div>

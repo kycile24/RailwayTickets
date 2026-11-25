@@ -2,12 +2,12 @@
 @model IEnumerable<RailwayTickets.Models.ReturnRequest>
 
 @{
-    ViewData["Title"] = "Заявки на повернення";
+    ViewData["Title"] = Ui.Pick("Заявки на повернення", "Refund requests");
 }
 
-<h2>Заявки на повернення</h2>
+<h2>@(Ui.Pick("Заявки на повернення", "Refund requests"))</h2>
 <a asp-action="Create" class="btn btn-success mb-3">
-    Додати заявку
+    @(Ui.Pick("Додати заявку", "Add request"))
 </a>
 
 @if (TempData["Error"] != null)
@@ -19,13 +19,13 @@
     <thead class="table-dark">
         <tr>
             <th>ID</th>
-            <th>Квиток</th>
-            <th>Пасажир</th>
-            <th>Причина</th>
-            <th>Дата</th>
-            <th>Статус</th>
-            <th>Касир</th>
-            <th>Дії</th>
+            <th>@(Ui.Pick("Квиток", "Ticket"))</th>
+            <th>@(Ui.Pick("Пасажир", "Passenger"))</th>
+            <th>@(Ui.Pick("Причина", "Reason"))</th>
+            <th>@(Ui.Pick("Дата", "Date"))</th>
+            <th>@(Ui.Pick("Статус", "Status"))</th>
+            <th>@(Ui.Pick("Касир", "Cashier"))</th>
+            <th>@(Ui.Pick("Дії", "Actions"))</th>
         </tr>
     </thead>
 
@@ -38,7 +38,7 @@
                 <td>@request.Passenger?.FullName</td>
                 <td>@request.Reason</td>
                 <td>@request.RequestDate.ToString("dd.MM.yyyy HH:mm")</td>
-                <td>@request.Status</td>
+                <td>@Ui.Status(request.Status)</td>
                 <td>@(request.Cashier?.FullName ?? "—")</td>
 
                 <td>
@@ -49,7 +49,7 @@
                               method="post" class="d-inline">
                             @Html.AntiForgeryToken()
                             <button type="submit" class="btn btn-sm btn-success">
-                                Схвалити
+                                @(Ui.Pick("Схвалити", "Approve"))
                             </button>
                         </form>
 
@@ -58,7 +58,7 @@
                               method="post" class="d-inline">
                             @Html.AntiForgeryToken()
                             <button type="submit" class="btn btn-sm btn-secondary">
-                                Відхилити
+                                @(Ui.Pick("Відхилити", "Reject"))
                             </button>
                         </form>
                     }
@@ -67,7 +67,7 @@
                     <a asp-action="Edit"
                        asp-route-id="@request.Id"
                        class="btn btn-sm btn-warning">
-                        Редагувати
+                        @(Ui.Pick("Редагувати", "Edit"))
                     </a>
 
                     <form asp-action="Delete"
@@ -77,8 +77,8 @@
 
                         <button type="submit"
                                 class="btn btn-sm btn-danger"
-                                onclick="return confirm('Видалити заявку?')">
-                            Видалити
+                                onclick="return confirm('@(Ui.Pick("Видалити заявку", "Delete request"))?')">
+                            @(Ui.Pick("Видалити", "Delete"))
                         </button>
                     </form>
                     }

@@ -2,10 +2,10 @@
 @model RailwayTickets.Models.Employee
 
 @{
-    ViewData["Title"] = "Редагувати працівника";
+    ViewData["Title"] = Ui.Pick("Редагувати працівника", "Edit employee");
 }
 
-<h2>Редагувати працівника</h2>
+<h2>@(Ui.Pick("Редагувати працівника", "Edit employee"))</h2>
 
 <form asp-controller="Admin"
       asp-action="EditEmployee"
@@ -18,7 +18,7 @@
          class="text-danger"></div>
 
     <div class="mb-3">
-        <label>ПІБ</label>
+        <label>@(Ui.Pick("ПІБ", "Full name"))</label>
         <input name="fullName"
                value="@Model.FullName"
                class="form-control"
@@ -26,7 +26,7 @@
     </div>
 
     <div class="mb-3">
-        <label>Логін</label>
+        <label>@(Ui.Pick("Логін", "Username"))</label>
         <input name="login"
                value="@Model.Login"
                class="form-control"
@@ -34,7 +34,7 @@
     </div>
 
     <div class="mb-3">
-        <label>Пароль</label>
+        <label>@(Ui.Pick("Пароль", "Password"))</label>
         <input name="password"
                type="password"
                class="form-control"
@@ -42,12 +42,12 @@
     </div>
 
     <button type="submit" class="btn btn-warning">
-        Зберегти зміни
+        @(Ui.Pick("Зберегти зміни", "Save changes"))
     </button>
 
     <a asp-controller="Admin"
        asp-action="Employees"
        class="btn btn-secondary">
-        Назад
+        @(Ui.Pick("Назад", "Back"))
     </a>
 </form>

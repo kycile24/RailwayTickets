@@ -1,27 +1,27 @@
 @{
-    ViewData["Title"] = "Залізничні подорожі";
+    ViewData["Title"] = Ui.Pick("Залізничні подорожі", "Rail travel");
 }
 
 <section class="hero-panel" aria-labelledby="home-title">
     <div class="hero-copy">
-        <span class="eyebrow">Єдина система керування поїздками</span>
-        <h1 id="home-title">Ваша подорож починається з правильного маршруту</h1>
-        <p>Знайдіть потрібний рейс, оберіть місце та керуйте квитками в одному зручному сервісі.</p>
+        <span class="eyebrow">@(Ui.Pick("Єдина система керування поїздками", "Your railway travel hub"))</span>
+        <h1 id="home-title">@(Ui.Pick("Ваша подорож починається з правильного маршруту", "Your next journey starts here"))</h1>
+        <p>@(Ui.Pick("Знайдіть потрібний рейс", "Find a departure")), @(Ui.Pick("оберіть місце та керуйте квитками в одному зручному сервісі", "choose a seat and manage your tickets in one place")).</p>
         <div class="hero-actions">
-            <a asp-controller="Trips" asp-action="Index" class="btn btn-primary btn-lg">Знайти рейс <span aria-hidden="true">→</span></a>
+            <a asp-controller="Trips" asp-action="Index" class="btn btn-primary btn-lg">@(Ui.Pick("Знайти рейс", "Find a trip")) <span aria-hidden="true">→</span></a>
             @if (User.Identity?.IsAuthenticated != true)
             {
-                <a asp-controller="Account" asp-action="Login" class="btn btn-outline-light btn-lg">Увійти в акаунт</a>
+                <a asp-controller="Account" asp-action="Login" class="btn btn-outline-light btn-lg">@(Ui.Pick("Увійти в акаунт", "Sign in to your account"))</a>
             }
             else
             {
-                <a asp-controller="Tickets" asp-action="Index" class="btn btn-outline-light btn-lg">Мої квитки</a>
+                <a asp-controller="Tickets" asp-action="Index" class="btn btn-outline-light btn-lg">@(Ui.Pick("Мої квитки", "My tickets"))</a>
             }
         </div>
-        <div class="hero-meta" aria-label="Можливості системи">
-            <span><strong>01</strong> Пошук рейсів</span>
-            <span><strong>02</strong> Бронювання місць</span>
-            <span><strong>03</strong> Касові операції</span>
+        <div class="hero-meta" aria-label="@(Ui.Pick("Можливості системи", "System features"))">
+            <span><strong>01</strong> @(Ui.Pick("Пошук рейсів", "Find trips"))</span>
+            <span><strong>02</strong> @(Ui.Pick("Бронювання місць", "Seat reservations"))</span>
+            <span><strong>03</strong> @(Ui.Pick("Касові операції", "Cash operations"))</span>
         </div>
     </div>
 </section>
@@ -29,9 +29,9 @@
 <section aria-labelledby="features-title">
     <div class="section-heading">
         <div>
-            <span class="eyebrow">Можливості платформи</span>
-            <h2 id="features-title">Усе для керування поїздкою</h2>
-            <p>Зрозумілий шлях для пасажирів і зручні інструменти для команди.</p>
+            <span class="eyebrow">@(Ui.Pick("Можливості платформи", "Features"))</span>
+            <h2 id="features-title">@(Ui.Pick("Усе для керування поїздкою", "Manage your journey"))</h2>
+            <p>@(Ui.Pick("Зрозумілий шлях для пасажирів і зручні інструменти для команди", "Tools for passengers and railway staff")).</p>
         </div>
     </div>
 
@@ -39,42 +39,42 @@
         <div class="col-md-6 col-xl-4">
             <article class="feature-card">
                 <div class="feature-icon" aria-hidden="true">↗</div>
-                <h3>Пошук і розклад</h3>
-                <p>Порівнюйте маршрути, час відправлення та прибуття, потяги й вартість квитків.</p>
-                <a asp-controller="Trips" asp-action="Index" class="feature-link">Переглянути рейси</a>
+                <h3>@(Ui.Pick("Пошук і розклад", "Search and timetable"))</h3>
+                <p>@(Ui.Pick("Порівнюйте маршрути", "Compare routes")), @(Ui.Pick("час відправлення та прибуття", "departure and arrival times")), @(Ui.Pick("потяги й вартість квитків", "trains and fares")).</p>
+                <a asp-controller="Trips" asp-action="Index" class="feature-link">@(Ui.Pick("Переглянути рейси", "Browse trips"))</a>
             </article>
         </div>
         <div class="col-md-6 col-xl-4">
             <article class="feature-card">
                 <div class="feature-icon" aria-hidden="true">▦</div>
-                <h3>Квитки та повернення</h3>
-                <p>Оформлюйте бронювання, перевіряйте свої квитки та надсилайте заявку на повернення.</p>
+                <h3>@(Ui.Pick("Квитки та повернення", "Tickets and refunds"))</h3>
+                <p>@(Ui.Pick("Оформлюйте бронювання", "Book tickets")), @(Ui.Pick("перевіряйте свої квитки та надсилайте заявку на повернення", "review your tickets and submit refund requests")).</p>
                 @if (User.Identity?.IsAuthenticated == true)
                 {
-                    <a asp-controller="Tickets" asp-action="Index" class="feature-link">Відкрити квитки</a>
+                    <a asp-controller="Tickets" asp-action="Index" class="feature-link">@(Ui.Pick("Відкрити квитки", "View tickets"))</a>
                 }
                 else
                 {
-                    <a asp-controller="Account" asp-action="Register" class="feature-link">Створити акаунт</a>
+                    <a asp-controller="Account" asp-action="Register" class="feature-link">@(Ui.Pick("Створити акаунт", "Create account"))</a>
                 }
             </article>
         </div>
         <div class="col-md-6 col-xl-4">
             <article class="feature-card">
                 <div class="feature-icon" aria-hidden="true">◎</div>
-                <h3>Робочі інструменти</h3>
-                <p>Касири та адміністратори працюють із пасажирами, заявками, змінами й даними рейсів.</p>
+                <h3>@(Ui.Pick("Робочі інструменти", "Staff tools"))</h3>
+                <p>@(Ui.Pick("Касири та адміністратори працюють із пасажирами", "Cashiers and administrators manage passengers")), @(Ui.Pick("заявками", "requests")), @(Ui.Pick("змінами й даними рейсів", "shifts and trip data")).</p>
                 @if (User.IsInRole("Administrator"))
                 {
-                    <a asp-controller="Admin" asp-action="Index" class="feature-link">Відкрити керування</a>
+                    <a asp-controller="Admin" asp-action="Index" class="feature-link">@(Ui.Pick("Відкрити керування", "Open administration"))</a>
                 }
                 else if (User.IsInRole("Cashier"))
                 {
-                    <a asp-controller="Cashier" asp-action="Index" class="feature-link">Відкрити касу</a>
+                    <a asp-controller="Cashier" asp-action="Index" class="feature-link">@(Ui.Pick("Відкрити касу", "Open ticket desk"))</a>
                 }
                 else
                 {
-                    <a asp-controller="Account" asp-action="Login" class="feature-link">Вхід для працівників</a>
+                    <a asp-controller="Account" asp-action="Login" class="feature-link">@(Ui.Pick("Вхід для працівників", "Staff sign-in"))</a>
                 }
             </article>
         </div>

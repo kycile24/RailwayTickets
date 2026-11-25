@@ -1,7 +1,7 @@
 ﻿@model RailwayTickets.Models.Ticket
 
 @{
-    ViewData["Title"] = "Квиток";
+    ViewData["Title"] = Ui.Pick("Квиток", "Ticket");
 }
 
 @if (TempData["Error"] != null)
@@ -15,7 +15,7 @@
     <div class="card-header">
 
         <strong>
-            Електронний квиток
+            @(Ui.Pick("Електронний квиток", "Electronic ticket"))
         </strong>
 
     </div>
@@ -35,17 +35,17 @@
             <div class="col-md-6">
 
                 <p>
-                    <strong>Пасажир:</strong><br />
+                    <strong>@(Ui.Pick("Пасажир", "Passenger")):</strong><br />
                     @Model.Passenger.FullName
                 </p>
 
                 <p>
-                    <strong>Документ:</strong><br />
+                    <strong>@(Ui.Pick("Документ", "Document")):</strong><br />
                     @Model.Passenger.Document
                 </p>
 
                 <p>
-                    <strong>Телефон:</strong><br />
+                    <strong>@(Ui.Pick("Телефон", "Phone")):</strong><br />
                     @Model.Passenger.Phone
                 </p>
 
@@ -55,20 +55,20 @@
             <div class="col-md-6">
 
                 <p>
-                    <strong>Маршрут:</strong><br />
+                    <strong>@(Ui.Pick("Маршрут", "Route")):</strong><br />
 
-                    @Model.Trip.Route.StartStation
+                    @Ui.Station(Model.Trip.Route.StartStation)
                     →
-                    @Model.Trip.Route.EndStation
+                    @Ui.Station(Model.Trip.Route.EndStation)
                 </p>
 
                 <p>
-                    <strong>Рейс:</strong><br />
+                    <strong>@(Ui.Pick("Рейс", "Trip")):</strong><br />
                     @Model.Trip.TripNumber
                 </p>
 
                 <p>
-                    <strong>Відправлення:</strong><br />
+                    <strong>@(Ui.Pick("Відправлення", "Departure")):</strong><br />
 
                     @Model.Trip.DepartureDate
                     .ToString("dd.MM.yyyy HH:mm")
@@ -86,7 +86,7 @@
 
             <div class="col-md-4">
 
-                <strong>Вагон @Model.CarriageNumber · Місце</strong>
+                <strong>@(Ui.Pick("Вагон", "Carriage")) @Model.CarriageNumber · @(Ui.Pick("Місце", "Seat"))</strong>
 
                 <div class="fs-4">
                     @Model.SeatNumber
@@ -97,10 +97,10 @@
 
             <div class="col-md-4">
 
-                <strong>Вартість</strong>
+                <strong>@(Ui.Pick("Вартість", "Fare"))</strong>
 
                 <div class="fs-4">
-                    @Model.Price.ToString("0.00") грн
+                    @Model.Price.ToString("0.00") @(Ui.Pick("грн", "UAH"))
                 </div>
 
             </div>
@@ -108,11 +108,11 @@
 
             <div class="col-md-4">
 
-                <strong>Статус</strong>
+                <strong>@(Ui.Pick("Статус", "Status"))</strong>
 
                 <div>
                     <span class="badge bg-warning text-dark fs-6">
-                        @Model.Status
+                        @Ui.Status(Model.Status)
                     </span>
                 </div>
 
@@ -131,7 +131,7 @@
        asp-action="Index"
        class="btn btn-primary">
 
-        Мої квитки
+        @(Ui.Pick("Мої квитки", "My tickets"))
 
     </a>
 
@@ -139,16 +139,16 @@
        asp-action="Index"
        class="btn btn-secondary">
 
-        Знайти інший рейс
+        @(Ui.Pick("Знайти інший рейс", "Find another trip"))
 
     </a>
 
 </div>
-<p>Послуги: білизна — @(Model.Linen ? "так" : "ні"), напій — @(Model.Drink ? "так" : "ні"). Студентська пільга — @(string.IsNullOrEmpty(Model.StudentCard) ? "ні" : "так").</p>
+<p>@(Ui.Pick("Послуги", "Services")): @(Ui.Pick("білизна", "bedding")) — @(Model.Linen ? Ui.Pick("так", "yes") : Ui.Pick("ні", "no")), @(Ui.Pick("напій", "drink")) — @(Model.Drink ? Ui.Pick("так", "yes") : Ui.Pick("ні", "no")). @(Ui.Pick("Студентська пільга", "Student discount")) — @(string.IsNullOrEmpty(Model.StudentCard) ? Ui.Pick("ні", "no") : Ui.Pick("так", "yes")).</p>
 @if ((Model.Status == "Оформлено" || Model.Status == "Оплачено") && User.IsInRole("Cashier"))
 {
-    <button class="btn btn-outline-primary d-print-none" onclick="window.print()">Друкувати дублікат</button>
-    <h2 class="d-none d-print-block">Дублікат квитка №@Model.TicketNumber</h2>
+    <button class="btn btn-outline-primary d-print-none" onclick="window.print()">@(Ui.Pick("Друкувати дублікат", "Print duplicate"))</button>
+    <h2 class="d-none d-print-block">@(Ui.Pick("Дублікат квитка", "Duplicate ticket")) №@Model.TicketNumber</h2>
 }
 @if ((Model.Status == "Оформлено" || Model.Status == "Оплачено") && Model.Trip!.DepartureDate > DateTime.Now)
 {
@@ -157,7 +157,7 @@
        asp-route-ticketId="@Model.Id"
        class="btn btn-danger d-print-none">
 
-        Повернути квиток
+        @(Ui.Pick("Повернути квиток", "Request refund"))
 
     </a>
 }

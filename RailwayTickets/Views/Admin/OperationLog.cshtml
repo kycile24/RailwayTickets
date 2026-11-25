@@ -1,7 +1,7 @@
 @model List<RailwayTickets.ViewModels.OperationLogRow>
-<h1>Журнал змін</h1>
+<h1>@(Ui.Pick("Журнал змін", "Change history"))</h1>
 <table class="table table-striped">
-    <thead><tr><th>№</th><th>Час UTC</th><th>Виконавець</th><th>Таблиця</th><th>ID запису</th><th>Дія</th></tr></thead>
+    <thead><tr><th>№</th><th>@(Ui.Pick("Час", "Time")) UTC</th><th>@(Ui.Pick("Виконавець", "Performed by"))</th><th>@(Ui.Pick("Таблиця", "Table"))</th><th>ID @(Ui.Pick("запису", "record"))</th><th>@(Ui.Pick("Дія", "Action"))</th></tr></thead>
     <tbody>
     @foreach (var row in Model)
     {
@@ -12,6 +12,6 @@
 </table>
 @if (Model.Count == 100)
 {
-    <a asp-action="OperationLog" asp-route-before="@Model.Last().Id">Старіші записи</a>
+    <a asp-action="OperationLog" asp-route-before="@Model.Last().Id">@(Ui.Pick("Старіші записи", "Older records"))</a>
 }
-<a asp-action="Index">До панелі адміністратора</a>
+<a asp-action="Index">@(Ui.Pick("До панелі адміністратора", "Back to administration"))</a>

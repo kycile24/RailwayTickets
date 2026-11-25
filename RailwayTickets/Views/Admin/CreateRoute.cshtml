@@ -1,28 +1,28 @@
 ﻿
 @model RailwayTickets.Models.Route
 
-<h2>Додати маршрут</h2>
+<h2>@(Ui.Pick("Додати маршрут", "Add route"))</h2>
 
 <form asp-action="CreateRoute" method="post">
     <div asp-validation-summary="All" class="text-danger"></div>
 
     <input asp-for="RouteNumber" class="form-control mb-2"
-           placeholder="Номер маршруту" />
+           placeholder="@(Ui.Pick("Номер маршруту", "Route number"))" />
 
     <input asp-for="Name" class="form-control mb-2"
-           placeholder="Назва маршруту" />
+           placeholder="@(Ui.Pick("Назва маршруту", "Route name"))" />
 
     <input asp-for="StartStation" class="form-control mb-2"
-           placeholder="Станція відправлення" />
+           placeholder="@(Ui.Pick("Станція відправлення", "Departure station"))" />
 
     <input asp-for="EndStation" class="form-control mb-2"
-           placeholder="Станція прибуття" />
+           placeholder="@(Ui.Pick("Станція прибуття", "Arrival station"))" />
 
     <button type="submit" class="btn btn-success">
-        Зберегти
+        @(Ui.Pick("Зберегти", "Save"))
     </button>
 
     <a asp-action="Routes" class="btn btn-secondary">
-        Назад
+        @(Ui.Pick("Назад", "Back"))
     </a>
 </form>

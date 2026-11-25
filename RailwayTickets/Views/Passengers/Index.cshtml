@@ -1,17 +1,17 @@
 ﻿@model IEnumerable<RailwayTickets.Models.Passenger>
 
 @{
-    ViewData["Title"] = "Пасажири";
+    ViewData["Title"] = Ui.Pick("Пасажири", "Passengers");
 }
 <a asp-controller="Passengers"
    asp-action="Create"
    class="btn btn-success mb-3">
-    Додати пасажира
+    @(Ui.Pick("Додати пасажира", "Add passenger"))
 </a>
-<h1>Пасажири</h1>
+<h1>@(Ui.Pick("Пасажири", "Passengers"))</h1>
 
 <p class="text-muted">
-    Перелік пасажирів, які здійснювали бронювання квитків.
+    @(Ui.Pick("Перелік пасажирів", "Passenger list")), @(Ui.Pick("які здійснювали бронювання квитків", "who have booked tickets")).
 </p>
 @if (TempData["Error"] != null)
 {
@@ -20,8 +20,8 @@
 @if (!Model.Any())
 {
     <div class="alert alert-info">
-        Пасажирів поки немає.
-        Пасажир з'явиться після бронювання першого квитка.
+        @(Ui.Pick("Пасажирів поки немає", "No passengers yet")).
+        @(Ui.Pick("Пасажир з'явиться після бронювання першого квитка", "The passenger will appear after the first reservation")).
     </div>
 }
 else
@@ -31,11 +31,11 @@ else
         <thead class="table-dark">
             <tr>
                 <th>№</th>
-                <th>ПІБ</th>
-                <th>Телефон</th>
+                <th>@(Ui.Pick("ПІБ", "Full name"))</th>
+                <th>@(Ui.Pick("Телефон", "Phone"))</th>
                 <th>Email</th>
-                <th>Документ</th>
-                <th>Дії</th>
+                <th>@(Ui.Pick("Документ", "Document"))</th>
+                <th>@(Ui.Pick("Дії", "Actions"))</th>
             </tr>
         </thead>
 
@@ -63,7 +63,7 @@ else
                            asp-route-id="@passenger.Id"
                            class="btn btn-sm btn-outline-primary">
 
-                            Детальніше
+                            @(Ui.Pick("Детальніше", "Details"))
 
                         </a>
                     </td>
@@ -71,15 +71,15 @@ else
                         <a asp-action="Edit"
                            asp-route-id="@passenger.Id"
                            class="btn btn-sm btn-warning">
-                            Редагувати
+                            @(Ui.Pick("Редагувати", "Edit"))
                         </a>
                         <form asp-action="Delete" asp-route-id="@passenger.Id"
                               method="post" class="d-inline">
                             @Html.AntiForgeryToken()
 
                             <button type="submit" class="btn btn-sm btn-danger"
-                                    onclick="return confirm('Видалити пасажира?')">
-                                Видалити
+                                    onclick="return confirm('@(Ui.Pick("Видалити пасажира", "Delete passenger"))?')">
+                                @(Ui.Pick("Видалити", "Delete"))
                             </button>
                         </form>
                     </td>

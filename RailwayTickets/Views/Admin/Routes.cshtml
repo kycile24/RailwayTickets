@@ -1,21 +1,21 @@
 ﻿@model IEnumerable<RailwayTickets.Models.Route>
 
 @{
-    ViewData["Title"] = "Маршрути";
+    ViewData["Title"] = Ui.Pick("Маршрути", "Routes");
 }
 
-<h1>Маршрути</h1>
+<h1>@(Ui.Pick("Маршрути", "Routes"))</h1>
 
 <table class="table table-bordered table-hover">
 
     <thead class="table-dark">
 
         <tr>
-            <th>Номер</th>
-            <th>Назва</th>
-            <th>Початкова станція</th>
-            <th>Кінцева станція</th>
-            <th>Дії</th>
+            <th>@(Ui.Pick("Номер", "Number"))</th>
+            <th>@(Ui.Pick("Назва", "Name"))</th>
+            <th>@(Ui.Pick("Початкова станція", "Origin station"))</th>
+            <th>@(Ui.Pick("Кінцева станція", "Destination station"))</th>
+            <th>@(Ui.Pick("Дії", "Actions"))</th>
         </tr>
 
     </thead>
@@ -23,7 +23,7 @@
     <tbody>
 
 <a asp-action="CreateRoute" class="btn btn-success mb-3">
-    Додати маршрут
+    @(Ui.Pick("Додати маршрут", "Add route"))
 </a>
 
 @if (TempData["Error"] != null)
@@ -47,18 +47,18 @@
                 </td>
 
                 <td>
-                    @route.StartStation
+                    @Ui.Station(route.StartStation)
                 </td>
 
                 <td>
-                    @route.EndStation
+                    @Ui.Station(route.EndStation)
                 </td>
 
 <td>
     <a asp-action="EditRoute"
        asp-route-id="@route.Id"
        class="btn btn-sm btn-warning">
-        Редагувати
+        @(Ui.Pick("Редагувати", "Edit"))
     </a>
 
     <form asp-action="DeleteRoute"
@@ -70,8 +70,8 @@
 
         <button type="submit"
                 class="btn btn-sm btn-danger"
-                onclick="return confirm('Видалити маршрут?')">
-            Видалити
+                onclick="return confirm('@(Ui.Pick("Видалити маршрут", "Delete route"))?')">
+            @(Ui.Pick("Видалити", "Delete"))
         </button>
     </form>
 </td>
@@ -88,6 +88,6 @@
 <a asp-action="Index"
    class="btn btn-secondary">
 
-    Назад
+    @(Ui.Pick("Назад", "Back"))
 
 </a>

@@ -1,13 +1,13 @@
 ﻿@model RailwayTickets.Models.Trip
 
 @{
-    ViewData["Title"] = "Редагування рейсу";
+    ViewData["Title"] = Ui.Pick("Редагування рейсу", "Edit trip");
 }
 
-<h1>Редагування рейсу</h1>
+<h1>@(Ui.Pick("Редагування рейсу", "Edit trip"))</h1>
 
 <p class="text-muted">
-    Зміна розкладу та параметрів рейсу @Model.TripNumber.
+    @(Ui.Pick("Зміна розкладу та параметрів рейсу", "Update trip schedule and details")) @Model.TripNumber.
 </p>
 
 <hr />
@@ -31,7 +31,7 @@
 
         <label asp-for="TripNumber"
                class="form-label">
-            Номер рейсу
+            @(Ui.Pick("Номер рейсу", "Trip number"))
         </label>
 
         <input asp-for="TripNumber"
@@ -49,7 +49,7 @@
         <div class="col-md-6 mb-3">
 
             <label class="form-label">
-                Маршрут
+                @(Ui.Pick("Маршрут", "Route"))
             </label>
 
             <select asp-for="RouteId"
@@ -58,7 +58,7 @@
                 @foreach (var route in ViewBag.Routes)
                 {
                     <option value="@route.Id">
-                        @route.StartStation → @route.EndStation
+                        @Ui.Station(route.StartStation) → @Ui.Station(route.EndStation)
                     </option>
                 }
 
@@ -70,7 +70,7 @@
         <div class="col-md-6 mb-3">
 
             <label class="form-label">
-                Потяг
+                @(Ui.Pick("Потяг", "Train"))
             </label>
 
             <select asp-for="TrainId"
@@ -96,7 +96,7 @@
 
             <label asp-for="DepartureDate"
                    class="form-label">
-                Відправлення
+                @(Ui.Pick("Відправлення", "Departure"))
             </label>
 
             <input asp-for="DepartureDate"
@@ -110,7 +110,7 @@
 
             <label asp-for="ArrivalDate"
                    class="form-label">
-                Прибуття
+                @(Ui.Pick("Прибуття", "Arrival"))
             </label>
 
             <input asp-for="ArrivalDate"
@@ -130,7 +130,7 @@
 
         <label asp-for="BasePrice"
                class="form-label">
-            Базова вартість
+            @(Ui.Pick("Базова вартість", "Base fare"))
         </label>
 
         <input asp-for="BasePrice"
@@ -146,7 +146,7 @@
     <button type="submit"
             class="btn btn-primary">
 
-        Зберегти зміни
+        @(Ui.Pick("Зберегти зміни", "Save changes"))
 
     </button>
 
@@ -154,7 +154,7 @@
     <a asp-action="Trips"
        class="btn btn-secondary">
 
-        Скасувати
+        @(Ui.Pick("Скасувати", "Cancel"))
 
     </a>
 

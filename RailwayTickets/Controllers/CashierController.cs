@@ -46,10 +46,10 @@ namespace RailwayTickets.Controllers
 
                 if (cashier != null)
                 {
-                    if (ticket.Trip!.DepartureDate <= DateTime.Now) return Conflict("Рейс уже відправився.");
+                    if (ticket.Trip!.DepartureDate <= DateTime.Now) return Conflict(Ui.Pick("Рейс уже відправився.", "The trip has already departed."));
                     if (!CashDesk.Record(_context, ticket, cashier.Id, "Оформлено", ticket.Price))
                     {
-                        TempData["ShiftError"] = "Перед оформленням квитка відкрийте касову зміну.";
+                        TempData["ShiftError"] = Ui.Pick("Перед оформленням квитка відкрийте касову зміну.", "Open a shift before issuing a ticket.");
                         return RedirectToAction("Index", "Register");
                     }
                     ticket.CashierId = cashier.Id;

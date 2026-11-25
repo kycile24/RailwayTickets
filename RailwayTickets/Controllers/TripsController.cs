@@ -32,15 +32,15 @@ namespace RailwayTickets.Controllers
             // Фільтрація за станцією відправлення
             if (!string.IsNullOrWhiteSpace(startStation))
             {
-                query = query.Where(t =>
-                    t.Route.StartStation.Contains(startStation));
+                string station = Ui.StationKey(startStation);
+                query = query.Where(t => t.Route.StartStation.Contains(station) || t.Route.StartStation.Contains(startStation));
             }
 
             // Фільтрація за станцією прибуття
             if (!string.IsNullOrWhiteSpace(endStation))
             {
-                query = query.Where(t =>
-                    t.Route.EndStation.Contains(endStation));
+                string station = Ui.StationKey(endStation);
+                query = query.Where(t => t.Route.EndStation.Contains(station) || t.Route.EndStation.Contains(endStation));
             }
 
             // Фільтрація за датою відправлення

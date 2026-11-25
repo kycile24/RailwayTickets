@@ -1,13 +1,13 @@
 ﻿@model IEnumerable<RailwayTickets.Models.Ticket>
 
 @{
-    ViewData["Title"] = "Касир";
+    ViewData["Title"] = Ui.Pick("Касир", "Cashier");
 }
 
-<h1>Робоче місце касира</h1>
+<h1>@(Ui.Pick("Робоче місце касира", "Cashier workspace"))</h1>
 
 <p class="text-muted">
-    Оформлення та контроль залізничних квитків.
+    @(Ui.Pick("Оформлення та контроль залізничних квитків", "Railway ticket administration")).
 </p>
 
 <hr />
@@ -17,7 +17,7 @@
 {
     <div class="alert alert-info">
 
-        Квитків поки немає.
+        @(Ui.Pick("Квитків поки немає", "No tickets yet")).
 
     </div>
 }
@@ -28,14 +28,14 @@ else
         <thead class="table-dark">
 
             <tr>
-                <th>Квиток</th>
-                <th>Пасажир</th>
-                <th>Маршрут</th>
-                <th>Рейс</th>
-                <th>Місце</th>
-                <th>Ціна</th>
-                <th>Статус</th>
-                <th>Дії</th>
+                <th>@(Ui.Pick("Квиток", "Ticket"))</th>
+                <th>@(Ui.Pick("Пасажир", "Passenger"))</th>
+                <th>@(Ui.Pick("Маршрут", "Route"))</th>
+                <th>@(Ui.Pick("Рейс", "Trip"))</th>
+                <th>@(Ui.Pick("Місце", "Seat"))</th>
+                <th>@(Ui.Pick("Ціна", "Price"))</th>
+                <th>@(Ui.Pick("Статус", "Status"))</th>
+                <th>@(Ui.Pick("Дії", "Actions"))</th>
             </tr>
 
         </thead>
@@ -55,9 +55,9 @@ else
                     </td>
 
                     <td>
-                        @ticket.Trip.Route.StartStation
+                        @Ui.Station(ticket.Trip.Route.StartStation)
                         →
-                        @ticket.Trip.Route.EndStation
+                        @Ui.Station(ticket.Trip.Route.EndStation)
                     </td>
 
                     <td>
@@ -69,7 +69,7 @@ else
                     </td>
 
                     <td>
-                        @ticket.Price.ToString("0.00") грн
+                        @ticket.Price.ToString("0.00") @(Ui.Pick("грн", "UAH"))
                     </td>
 
                     <td>
@@ -77,31 +77,31 @@ else
                         @if (ticket.Status == "Заброньовано")
                         {
                             <span class="badge bg-warning text-dark">
-                                Заброньовано
+                                @(Ui.Pick("Заброньовано", "Reserved"))
                             </span>
                         }
                         else if (ticket.Status == "Оформлено")
                         {
                             <span class="badge bg-success">
-                                Оформлено
+                                @(Ui.Pick("Оформлено", "Issued"))
                             </span>
                         }
                         else if (ticket.Status == "Повернено")
                         {
                             <span class="badge bg-secondary">
-                                Повернено
+                                @(Ui.Pick("Повернено", "Refunded"))
                             </span>
                         }
                         else if (ticket.Status == "Скасовано")
                         {
                             <span class="badge bg-danger">
-                                Скасовано
+                                @(Ui.Pick("Скасовано", "Cancelled"))
                             </span>
                         }
                         else
                         {
                             <span class="badge bg-secondary">
-                                @ticket.Status
+                                @Ui.Status(ticket.Status)
                             </span>
                         }
 
@@ -114,7 +114,7 @@ else
                            asp-route-id="@ticket.Id"
                            class="btn btn-sm btn-outline-primary mb-1">
 
-                            Переглянути
+                            @(Ui.Pick("Переглянути", "View"))
 
                         </a>
 
@@ -135,7 +135,7 @@ else
                                 <button type="submit"
                                         class="btn btn-sm btn-success mb-1">
 
-                                    Оформити
+                                    @(Ui.Pick("Оформити", "Issue ticket"))
 
                                 </button>
 
@@ -156,7 +156,7 @@ else
                                 <button type="submit"
                                         class="btn btn-sm btn-danger mb-1">
 
-                                    Скасувати
+                                    @(Ui.Pick("Скасувати", "Cancel"))
 
                                 </button>
 

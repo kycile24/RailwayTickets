@@ -1,20 +1,20 @@
 ﻿@model RailwayTickets.Models.Train
 
-<h2>Додати потяг</h2>
+<h2>@(Ui.Pick("Додати потяг", "Add train"))</h2>
 
 <form asp-action="CreateTrain" method="post">
     <div asp-validation-summary="All" class="text-danger"></div>
 
-    <label>Номер потяга</label>
+    <label>@(Ui.Pick("Номер потяга", "Train number"))</label>
     <input asp-for="TrainNumber" class="form-control mb-2" />
 
-    <label>Тип потяга</label>
+    <label>@(Ui.Pick("Тип потяга", "Train type"))</label>
     <input asp-for="Type" class="form-control mb-2" />
 
-    <label>Кількість вагонів</label>
+    <label>@(Ui.Pick("Кількість вагонів", "Number of carriages"))</label>
     <input asp-for="CarriageCount" type="number"
            class="form-control mb-2" />
 
-    <button type="submit" class="btn btn-success">Зберегти</button>
-    <a asp-action="Trains" class="btn btn-secondary">Назад</a>
+    <button type="submit" class="btn btn-success">@(Ui.Pick("Зберегти", "Save"))</button>
+    <a asp-action="Trains" class="btn btn-secondary">@(Ui.Pick("Назад", "Back"))</a>
 </form>

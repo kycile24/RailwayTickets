@@ -1,6 +1,6 @@
 ﻿@model RailwayTickets.Models.Route
 
-<h2>Редагувати маршрут</h2>
+<h2>@(Ui.Pick("Редагувати маршрут", "Edit route"))</h2>
 
 <form asp-action="EditRoute" method="post">
     <input type="hidden" asp-for="Id" />
@@ -11,6 +11,6 @@
     <input asp-for="EndStation" class="form-control mb-2" />
 
     <button type="submit" class="btn btn-warning">
-        Зберегти зміни
+        @(Ui.Pick("Зберегти зміни", "Save changes"))
     </button>
 </form>

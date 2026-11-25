@@ -1,10 +1,10 @@
 ﻿@model IEnumerable<RailwayTickets.Models.Trip>
 
 @{
-    ViewData["Title"] = "Рейси";
+    ViewData["Title"] = Ui.Pick("Рейси", "Trips");
 }
 
-<h1 class="mb-4">Пошук рейсів</h1>
+<h1 class="mb-4">@(Ui.Pick("Пошук рейсів", "Find trips"))</h1>
 
 
 <div class="card shadow-sm mb-4">
@@ -20,14 +20,14 @@
                 <div class="col-md-4">
 
                     <label class="form-label">
-                        Звідки
+                        @(Ui.Pick("Звідки", "From"))
                     </label>
 
                     <input type="text"
                            name="startStation"
-                           value="@ViewBag.StartStation"
+                           value="@Ui.Station(ViewBag.StartStation)"
                            class="form-control"
-                           placeholder="Київ" />
+                           placeholder="@(Ui.Pick("Київ", "Kyiv"))" />
 
                 </div>
 
@@ -35,14 +35,14 @@
                 <div class="col-md-4">
 
                     <label class="form-label">
-                        Куди
+                        @(Ui.Pick("Куди", "To"))
                     </label>
 
                     <input type="text"
                            name="endStation"
-                           value="@ViewBag.EndStation"
+                           value="@Ui.Station(ViewBag.EndStation)"
                            class="form-control"
-                           placeholder="Львів" />
+                           placeholder="@(Ui.Pick("Львів", "Lviv"))" />
 
                 </div>
 
@@ -50,7 +50,7 @@
                 <div class="col-md-2">
 
                     <label class="form-label">
-                        Дата
+                        @(Ui.Pick("Дата", "Date"))
                     </label>
 
                     <input type="date"
@@ -66,7 +66,7 @@
                     <button type="submit"
                             class="btn btn-primary w-100">
 
-                        Знайти
+                        @(Ui.Pick("Знайти", "Search"))
 
                     </button>
 
@@ -84,7 +84,7 @@
 @if (!Model.Any())
 {
     <div class="alert alert-warning">
-        За заданими параметрами рейсів не знайдено.
+        @(Ui.Pick("За заданими параметрами рейсів не знайдено", "No trips match your search")).
     </div>
 }
 else
@@ -94,12 +94,12 @@ else
         <thead class="table-dark">
 
             <tr>
-                <th>Рейс</th>
-                <th>Маршрут</th>
-                <th>Відправлення</th>
-                <th>Прибуття</th>
-                <th>Потяг</th>
-                <th>Ціна</th>
+                <th>@(Ui.Pick("Рейс", "Trip"))</th>
+                <th>@(Ui.Pick("Маршрут", "Route"))</th>
+                <th>@(Ui.Pick("Відправлення", "Departure"))</th>
+                <th>@(Ui.Pick("Прибуття", "Arrival"))</th>
+                <th>@(Ui.Pick("Потяг", "Train"))</th>
+                <th>@(Ui.Pick("Ціна", "Price"))</th>
                 <th></th>
             </tr>
 
@@ -116,9 +116,9 @@ else
                     </td>
 
                     <td>
-                        @trip.Route.StartStation
+                        @Ui.Station(trip.Route.StartStation)
                         →
-                        @trip.Route.EndStation
+                        @Ui.Station(trip.Route.EndStation)
                     </td>
 
                     <td>
@@ -134,7 +134,7 @@ else
                     </td>
 
                     <td>
-                        @trip.BasePrice.ToString("0.00") грн
+                        @trip.BasePrice.ToString("0.00") @(Ui.Pick("грн", "UAH"))
                     </td>
 
                     <td>
@@ -143,7 +143,7 @@ else
                            asp-route-id="@trip.Id"
                            class="btn btn-outline-primary btn-sm">
 
-                            Детальніше
+                            @(Ui.Pick("Детальніше", "Details"))
 
                         </a>
 

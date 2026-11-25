@@ -31,6 +31,6 @@ export Bootstrap__AdminPassword
 docker run --rm -p 8080:10000 -e Bootstrap__AdminPassword railwaytickets
 ```
 
-**Stack** · C# / .NET 8 · Razor MVC · EF Core · SQL Server / SQLite · Docker · Render
+**Stack** · C# / .NET 10 · Razor MVC · EF Core · SQL Server / SQLite · Docker · Render
 
 Інший проєкт · [Warehouse Management API](https://github.com/kycile24/wms-api)

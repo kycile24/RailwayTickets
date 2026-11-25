@@ -1,25 +1,25 @@
 ﻿
-<h2>Додати працівника</h2>
+<h2>@(Ui.Pick("Додати працівника", "Add employee"))</h2>
 
 <form asp-action="CreateEmployee" method="post">
     <div asp-validation-summary="All" class="text-danger"></div>
 
-    <label>ПІБ</label>
+    <label>@(Ui.Pick("ПІБ", "Full name"))</label>
     <input name="fullName" class="form-control mb-2" required />
 
-    <label>Логін</label>
+    <label>@(Ui.Pick("Логін", "Username"))</label>
     <input name="login" class="form-control mb-2" required />
 
-    <label>Пароль</label>
+    <label>@(Ui.Pick("Пароль", "Password"))</label>
     <input name="password" type="password"
            class="form-control mb-2" required />
 
-    <label>Посада</label>
+    <label>@(Ui.Pick("Посада", "Position"))</label>
     <select name="role" class="form-select mb-3">
-        <option value="Cashier">Касир</option>
-        <option value="Administrator">Адміністратор</option>
+        <option value="Cashier">@(Ui.Pick("Касир", "Cashier"))</option>
+        <option value="Administrator">@(Ui.Pick("Адміністратор", "Administrator"))</option>
     </select>
 
-    <button type="submit" class="btn btn-success">Зберегти</button>
-    <a asp-action="Employees" class="btn btn-secondary">Назад</a>
+    <button type="submit" class="btn btn-success">@(Ui.Pick("Зберегти", "Save"))</button>
+    <a asp-action="Employees" class="btn btn-secondary">@(Ui.Pick("Назад", "Back"))</a>
 </form>

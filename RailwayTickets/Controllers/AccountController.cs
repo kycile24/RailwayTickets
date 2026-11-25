@@ -32,7 +32,7 @@ public class AccountController(RailwayDbContext db) : Controller
                     return await Start(passenger.Id, passenger.FullName, "Client");
             }
         }
-        ModelState.AddModelError("", "Перевірте логін, пароль і тип облікового запису.");
+        ModelState.AddModelError("", Ui.Pick("Перевірте логін, пароль і тип облікового запису.", "Check the username, password and account type."));
         return View();
     }
 
@@ -46,7 +46,7 @@ public class AccountController(RailwayDbContext db) : Controller
             || password.Length < 8 || string.IsNullOrWhiteSpace(fullName) || string.IsNullOrWhiteSpace(phone)
             || string.IsNullOrWhiteSpace(document) || db.Passengers.Any(p => p.AccountLogin == login.Trim()))
         {
-            ModelState.AddModelError("", "Заповніть усі поля, оберіть вільний логін та пароль від 8 символів.");
+            ModelState.AddModelError("", Ui.Pick("Заповніть усі поля, оберіть вільний логін та пароль від 8 символів.", "Complete all fields, choose an available username and a password of at least 8 characters."));
             return View();
         }
         db.Passengers.Add(new Passenger { AccountLogin = login.Trim(), PasswordHash = Access.Hash(password),
@@ -63,7 +63,7 @@ public class AccountController(RailwayDbContext db) : Controller
     }
 
     [AllowAnonymous]
-    public IActionResult Denied() => StatusCode(403, "Доступ для цієї ролі заборонено.");
+    public IActionResult Denied() => StatusCode(403, Ui.Pick("Доступ для цієї ролі заборонено.", "Access denied for this role."));
 
     private async Task<IActionResult> Start(int id, string name, string role)
     {

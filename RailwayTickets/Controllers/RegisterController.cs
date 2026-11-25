@@ -41,7 +41,7 @@ public class RegisterController(RailwayDbContext db) : Controller
             .Select(t => new { t.TripNumber, Capacity = t.Train!.Carriages.Sum(c => (int?)c.SeatCount) ?? 0,
                 Held = t.Tickets.Count(k => k.Status == "Заброньовано"),
                 Sold = t.Tickets.Count(k => k.Status == "Оформлено" || k.Status == "Оплачено") }).ToList();
-        if (balances.Any(b => b.Held + b.Sold > b.Capacity)) return Conflict("Баланс місць не збігається.");
+        if (balances.Any(b => b.Held + b.Sold > b.Capacity)) return Conflict(Ui.Pick("Баланс місць не збігається.", "Seat totals do not match."));
         shift.SeatBalance = string.Join("\n", balances.Select(b =>
             $"{b.TripNumber}: усього {b.Capacity}, броні {b.Held}, оформлено {b.Sold}, вільно {b.Capacity-b.Held-b.Sold}"));
         shift.Closed = DateTime.Now;
@@ -54,7 +54,7 @@ public class RegisterController(RailwayDbContext db) : Controller
     {
         var shift = db.CashShifts.Find(id);
         if (shift == null) return NotFound();
-        if (shift.Closed == null || shift.Approved != null) return Conflict("Потрібна закрита незатверджена зміна.");
+        if (shift.Closed == null || shift.Approved != null) return Conflict(Ui.Pick("Потрібна закрита незатверджена зміна.", "A closed shift awaiting approval is required."));
         shift.Approved = DateTime.Now;
         shift.ApprovedBy = User.AccountId();
         db.SaveChanges();
@@ -72,7 +72,7 @@ public class RegisterController(RailwayDbContext db) : Controller
             || ticket.Status != entry.NewStatus || ticket.Trip!.DepartureDate <= DateTime.Now
             || db.CashEntries.Any(e => e.TicketId == ticket.Id && e.Id > id)
             || db.ReturnRequests.Any(r => r.TicketId == ticket.Id && r.Status == "Очікує"))
-            return Conflict("Перевірте причину, стан квитка та звіту. Анулювати можна останню чинну операцію.");
+            return Conflict(Ui.Pick("Перевірте причину, стан квитка та звіту. Анулювати можна останню чинну операцію.", "Check the reason, ticket and report status. Only the most recent active transaction can be reversed."));
         if (entry.ReturnRequestId is int requestId)
             db.ReturnRequests.Find(requestId)!.Status = "Очікує";
         if (entry.PreviousStatus == "Заброньовано") ticket.CashierId = null;

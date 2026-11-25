@@ -1,17 +1,17 @@
 ﻿@model IEnumerable<RailwayTickets.Models.Trip>
 
 @{
-    ViewData["Title"] = "Керування рейсами";
+    ViewData["Title"] = Ui.Pick("Керування рейсами", "Manage trips");
 }
 
 <div class="d-flex justify-content-between align-items-center mb-3">
 
-    <h1>Керування рейсами</h1>
+    <h1>@(Ui.Pick("Керування рейсами", "Manage trips"))</h1>
 
     <a asp-action="CreateTrip"
        class="btn btn-success">
 
-        Додати рейс
+        @(Ui.Pick("Додати рейс", "Add trip"))
 
     </a>
 
@@ -38,13 +38,13 @@
     <thead class="table-dark">
 
         <tr>
-            <th>Рейс</th>
-            <th>Маршрут</th>
-            <th>Потяг</th>
-            <th>Відправлення</th>
-            <th>Прибуття</th>
-            <th>Ціна</th>
-            <th>Дії</th>
+            <th>@(Ui.Pick("Рейс", "Trip"))</th>
+            <th>@(Ui.Pick("Маршрут", "Route"))</th>
+            <th>@(Ui.Pick("Потяг", "Train"))</th>
+            <th>@(Ui.Pick("Відправлення", "Departure"))</th>
+            <th>@(Ui.Pick("Прибуття", "Arrival"))</th>
+            <th>@(Ui.Pick("Ціна", "Price"))</th>
+            <th>@(Ui.Pick("Дії", "Actions"))</th>
         </tr>
 
     </thead>
@@ -59,9 +59,9 @@
                 <td>@trip.TripNumber</td>
 
                 <td>
-                    @trip.Route.StartStation
+                    @Ui.Station(trip.Route.StartStation)
                     →
-                    @trip.Route.EndStation
+                    @Ui.Station(trip.Route.EndStation)
                 </td>
 
                 <td>
@@ -77,7 +77,7 @@
                 </td>
 
                 <td>
-                    @trip.BasePrice.ToString("0.00") грн
+                    @trip.BasePrice.ToString("0.00") @(Ui.Pick("грн", "UAH"))
                 </td>
 
                 <td>
@@ -86,7 +86,7 @@
                        asp-route-id="@trip.Id"
                        class="btn btn-sm btn-warning">
 
-                        Редагувати
+                        @(Ui.Pick("Редагувати", "Edit"))
 
                     </a>
                     <form asp-action="DeleteTrip"
@@ -98,9 +98,9 @@
 
                         <button type="submit"
                                 class="btn btn-sm btn-danger"
-                                onclick="return confirm('Ви впевнені, що хочете видалити цей рейс?');">
+                                onclick="return confirm('@(Ui.Pick("Ви впевнені", "Are you sure")), @(Ui.Pick("що хочете видалити цей рейс", "you want to delete this trip"))?');">
 
-                            Видалити
+                            @(Ui.Pick("Видалити", "Delete"))
 
                         </button>
 
@@ -119,6 +119,6 @@
 <a asp-action="Index"
    class="btn btn-secondary">
 
-    Назад
+    @(Ui.Pick("Назад", "Back"))
 
 </a>

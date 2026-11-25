@@ -1,12 +1,12 @@
 <!DOCTYPE html>
-<html lang="uk">
+<html lang="@(Ui.English ? "en" : "uk")">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
     <title>@ViewData["Title"] · RailwayTickets</title>
     <meta name="theme-color" content="#102b3c" />
-    <meta name="description" content="Навчальна система керування залізничними рейсами, бронюванням квитків і касовими операціями." />
+    <meta name="description" content="@(Ui.Pick("Навчальна система керування залізничними рейсами", "Railway trip management")), @(Ui.Pick("бронюванням квитків і касовими операціями", "ticket bookings and cash operations"))." />
 
     <link rel="stylesheet"
           href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
@@ -35,7 +35,7 @@
                         data-bs-target="#navbarMenu"
                         aria-controls="navbarMenu"
                         aria-expanded="false"
-                        aria-label="Відкрити навігацію">
+                        aria-label="@(Ui.Pick("Відкрити навігацію", "Open navigation"))">
                     <span class="navbar-toggler-icon"></span>
                 </button>
 
@@ -44,53 +44,58 @@
                     <ul class="navbar-nav me-auto">
 
                         <li class="nav-item">
-                            <a class="nav-link" asp-controller="Home" asp-action="Index">Огляд</a>
+                            <a class="nav-link" asp-controller="Home" asp-action="Index">@(Ui.Pick("Огляд", "Overview"))</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" asp-controller="Trips" asp-action="Index">Рейси</a>
+                            <a class="nav-link" asp-controller="Trips" asp-action="Index">@(Ui.Pick("Рейси", "Trips"))</a>
                         </li>
                         @if (User.Identity?.IsAuthenticated == true)
                         {
                             <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Мої поїздки</a>
+                                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">@(Ui.Pick("Мої поїздки", "My journeys"))</a>
                                 <ul class="dropdown-menu">
-                                    <li><a class="dropdown-item" asp-controller="Tickets" asp-action="Index">Мої квитки</a></li>
-                                    <li><a class="dropdown-item" asp-controller="ReturnRequests" asp-action="Index">Повернення квитка</a></li>
+                                    <li><a class="dropdown-item" asp-controller="Tickets" asp-action="Index">@(Ui.Pick("Мої квитки", "My tickets"))</a></li>
+                                    <li><a class="dropdown-item" asp-controller="ReturnRequests" asp-action="Index">@(Ui.Pick("Повернення квитка", "Ticket refund"))</a></li>
                                 </ul>
                             </li>
                         }
                         @if (User.IsInRole("Cashier") || User.IsInRole("Administrator"))
                         {
                             <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Робоче місце</a>
+                                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">@(Ui.Pick("Робоче місце", "Workspace"))</a>
                                 <ul class="dropdown-menu">
                                     @if (User.IsInRole("Cashier"))
                                     {
-                                        <li><a class="dropdown-item" asp-controller="Cashier" asp-action="Index">Каса</a></li>
+                                        <li><a class="dropdown-item" asp-controller="Cashier" asp-action="Index">@(Ui.Pick("Каса", "Ticket desk"))</a></li>
                                     }
-                                    <li><a class="dropdown-item" asp-controller="Register" asp-action="Index">Касові зміни</a></li>
-                                    <li><a class="dropdown-item" asp-controller="Passengers" asp-action="Index">Пасажири</a></li>
+                                    <li><a class="dropdown-item" asp-controller="Register" asp-action="Index">@(Ui.Pick("Касові зміни", "Cash shifts"))</a></li>
+                                    <li><a class="dropdown-item" asp-controller="Passengers" asp-action="Index">@(Ui.Pick("Пасажири", "Passengers"))</a></li>
                                     @if (User.IsInRole("Administrator"))
                                     {
                                         <li><hr class="dropdown-divider" /></li>
-                                        <li><a class="dropdown-item" asp-controller="Admin" asp-action="Index">Керування системою</a></li>
-                                        <li><a class="dropdown-item" asp-controller="Queries" asp-action="Index">Звіт про продажі</a></li>
+                                        <li><a class="dropdown-item" asp-controller="Admin" asp-action="Index">@(Ui.Pick("Керування системою", "Administration"))</a></li>
+                                        <li><a class="dropdown-item" asp-controller="Queries" asp-action="Index">@(Ui.Pick("Звіт про продажі", "Sales report"))</a></li>
                                     }
                                 </ul>
                             </li>
                         }
                     </ul>
                     <div class="navbar-account">
+                        <form asp-controller="Language" asp-action="Set" method="post" class="btn-group" aria-label="Language / Мова">
+                            <input type="hidden" name="returnUrl" value="@(Context.Request.PathBase + Context.Request.Path + Context.Request.QueryString)" />
+                            <button name="language" value="uk" lang="uk" class="btn btn-sm @(Ui.English ? "btn-outline-light" : "btn-light")">УКР</button>
+                            <button name="language" value="en" lang="en" class="btn btn-sm @(Ui.English ? "btn-light" : "btn-outline-light")">EN</button>
+                        </form>
                         @if (User.Identity?.IsAuthenticated == true)
                         {
                             <span class="navbar-account-name">@User.Identity.Name</span>
                             <form asp-controller="Account" asp-action="Logout" method="post">
-                                <button class="btn btn-sm btn-outline-light">Вийти</button>
+                                <button class="btn btn-sm btn-outline-light">@(Ui.Pick("Вийти", "Sign out"))</button>
                             </form>
                         }
                         else
                         {
-                            <a class="btn btn-sm btn-primary" asp-controller="Account" asp-action="Login">Увійти</a>
+                            <a class="btn btn-sm btn-primary" asp-controller="Account" asp-action="Login">@(Ui.Pick("Увійти", "Sign in"))</a>
                         }
                     </div>
 
@@ -107,7 +112,7 @@
 
     <footer class="d-print-none border-top footer text-muted">
         <div class="container">
-            <span>RailwayTickets <span aria-hidden="true">·</span> система керування залізничними квитками</span>
+            <span>RailwayTickets <span aria-hidden="true">·</span> @(Ui.Pick("система керування залізничними квитками", "railway ticket management"))</span>
         </div>
     </footer>
 

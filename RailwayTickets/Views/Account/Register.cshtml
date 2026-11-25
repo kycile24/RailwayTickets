@@ -1,10 +1,10 @@
-<h1>Реєстрація клієнта</h1>
+<h1>@(Ui.Pick("Реєстрація клієнта", "Passenger registration"))</h1>
 <form asp-action="Register" method="post" class="col-md-5">
     <div asp-validation-summary="All" class="text-danger"></div>
-    <label>ПІБ <input name="fullName" required class="form-control" /></label>
-    <label>Телефон <input name="phone" required class="form-control" /></label>
-    <label>Документ <input name="document" required class="form-control" /></label>
-    <label>Логін <input name="login" maxlength="100" required class="form-control" /></label>
-    <label>Пароль <input type="password" name="password" minlength="8" required class="form-control" /></label>
-    <p><button class="btn btn-primary mt-3">Створити обліковий запис</button></p>
+    <label>@(Ui.Pick("ПІБ", "Full name")) <input name="fullName" required class="form-control" /></label>
+    <label>@(Ui.Pick("Телефон", "Phone")) <input name="phone" required class="form-control" /></label>
+    <label>@(Ui.Pick("Документ", "Document")) <input name="document" required class="form-control" /></label>
+    <label>@(Ui.Pick("Логін", "Username")) <input name="login" maxlength="100" required class="form-control" /></label>
+    <label>@(Ui.Pick("Пароль", "Password")) <input type="password" name="password" minlength="8" required class="form-control" /></label>
+    <p><button class="btn btn-primary mt-3">@(Ui.Pick("Створити обліковий запис", "Create an account"))</button></p>
 </form>

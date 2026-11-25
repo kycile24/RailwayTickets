@@ -102,7 +102,7 @@ namespace RailwayTickets.Controllers
             if (_context.Tickets.Any(t => t.PassengerId == id) ||
                 _context.ReturnRequests.Any(r => r.PassengerId == id))
             {
-                TempData["Error"] = "Неможливо видалити пасажира, який має квитки або заявки на повернення.";
+                TempData["Error"] = Ui.Pick("Неможливо видалити пасажира, який має квитки або заявки на повернення.", "Cannot delete this passenger, with tickets or refund requests.");
                 return RedirectToAction(nameof(Index));
             }
 

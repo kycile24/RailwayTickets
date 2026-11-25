@@ -1,17 +1,17 @@
 ﻿@model RailwayTickets.Models.Trip
 
 @{
-    ViewData["Title"] = "Рейс";
+    ViewData["Title"] = Ui.Pick("Рейс", "Trip");
 }
 
 <h1>
-    Рейс @Model.TripNumber
+    @(Ui.Pick("Рейс", "Trip")) @Model.TripNumber
 </h1>
 
 <p class="text-muted">
-    @Model.Route.StartStation
+    @Ui.Station(Model.Route.StartStation)
     →
-    @Model.Route.EndStation
+    @Ui.Station(Model.Route.EndStation)
 </p>
 
 <hr />
@@ -21,17 +21,17 @@
 
     <div class="col-md-6">
 
-        <h4>Інформація про рейс</h4>
+        <h4>@(Ui.Pick("Інформація про рейс", "Trip details"))</h4>
 
         <table class="table">
 
             <tr>
-                <th>Маршрут</th>
+                <th>@(Ui.Pick("Маршрут", "Route"))</th>
                 <td>@Model.Route.Name</td>
             </tr>
 
             <tr>
-                <th>Відправлення</th>
+                <th>@(Ui.Pick("Відправлення", "Departure"))</th>
 
                 <td>
                     @Model.DepartureDate.ToString("dd.MM.yyyy HH:mm")
@@ -39,7 +39,7 @@
             </tr>
 
             <tr>
-                <th>Прибуття</th>
+                <th>@(Ui.Pick("Прибуття", "Arrival"))</th>
 
                 <td>
                     @Model.ArrivalDate.ToString("dd.MM.yyyy HH:mm")
@@ -47,10 +47,10 @@
             </tr>
 
             <tr>
-                <th>Вартість</th>
+                <th>@(Ui.Pick("Вартість", "Fare"))</th>
 
                 <td>
-                    @Model.BasePrice.ToString("0.00") грн
+                    @Model.BasePrice.ToString("0.00") @(Ui.Pick("грн", "UAH"))
                 </td>
             </tr>
 
@@ -61,22 +61,22 @@
 
     <div class="col-md-6">
 
-        <h4>Потяг</h4>
+        <h4>@(Ui.Pick("Потяг", "Train"))</h4>
 
         <table class="table">
 
             <tr>
-                <th>Номер</th>
+                <th>@(Ui.Pick("Номер", "Number"))</th>
                 <td>@Model.Train.TrainNumber</td>
             </tr>
 
             <tr>
-                <th>Тип</th>
+                <th>@(Ui.Pick("Тип", "Type"))</th>
                 <td>@Model.Train.Type</td>
             </tr>
 
             <tr>
-                <th>Вагонів</th>
+                <th>@(Ui.Pick("Вагонів", "Carriages"))</th>
                 <td>@Model.Train.CarriageCount</td>
             </tr>
 
@@ -88,16 +88,16 @@
 
 
 <h4 class="mt-4">
-    Вагони
+    @(Ui.Pick("Вагони", "Carriages"))
 </h4>
 
 <table class="table table-bordered">
 
     <thead>
         <tr>
-            <th>Вагон</th>
-            <th>Тип</th>
-            <th>Місць</th>
+            <th>@(Ui.Pick("Вагон", "Carriage"))</th>
+            <th>@(Ui.Pick("Тип", "Type"))</th>
+            <th>@(Ui.Pick("Місць", "Seats"))</th>
         </tr>
     </thead>
 
@@ -120,7 +120,7 @@
 <a asp-action="Index"
    class="btn btn-secondary">
 
-    Назад
+    @(Ui.Pick("Назад", "Back"))
 
 </a>
 
@@ -129,6 +129,6 @@
    asp-route-tripId="@Model.Id"
    class="btn btn-success">
 
-    Забронювати квиток
+    @(Ui.Pick("Забронювати квиток", "Book ticket"))
 
 </a>

@@ -1,10 +1,10 @@
 ﻿@model RailwayTickets.ViewModels.BookTicketViewModel
 
 @{
-    ViewData["Title"] = "Бронювання квитка";
+    ViewData["Title"] = Ui.Pick("Бронювання квитка", "Ticket reservation");
 }
 
-<h1>Бронювання квитка</h1>
+<h1>@(Ui.Pick("Бронювання квитка", "Ticket reservation"))</h1>
 
 <hr />
 
@@ -18,18 +18,18 @@
         </h5>
 
         <p class="mb-1">
-            Рейс:
+            @(Ui.Pick("Рейс", "Trip")):
             <strong>@Model.TripNumber</strong>
         </p>
 
         <p class="mb-1">
-            Відправлення:
+            @(Ui.Pick("Відправлення", "Departure")):
             @Model.DepartureDate.ToString("dd.MM.yyyy HH:mm")
         </p>
 
         <p class="mb-0">
-            Вартість:
-            <strong>@Model.Price.ToString("0.00") грн</strong>
+            @(Ui.Pick("Вартість", "Fare")):
+            <strong>@Model.Price.ToString("0.00") @(Ui.Pick("грн", "UAH"))</strong>
         </p>
 
     </div>
@@ -52,7 +52,7 @@
     </div>
 
 
-    <h4>Вибір місця</h4>
+    <h4>@(Ui.Pick("Вибір місця", "Choose a seat"))</h4>
 
     <div class="row mb-4">
 
@@ -66,16 +66,16 @@
                     class="form-select">
 
                 <option value="">
-                    Оберіть вагон
+                    @(Ui.Pick("Оберіть вагон", "Choose a carriage"))
                 </option>
 
                 @foreach (var carriage in ViewBag.Carriages)
                 {
                     <option value="@carriage.CarriageNumber">
 
-                        Вагон @carriage.CarriageNumber
+                        @(Ui.Pick("Вагон", "Carriage")) @carriage.CarriageNumber
                         — @carriage.CarriageType
-                        (@carriage.SeatCount місць)
+                        (@carriage.SeatCount @(Ui.Pick("місць", "seats")))
 
                     </option>
                 }
@@ -107,16 +107,16 @@
     </div>
 
 
-    <h4>Пільга та послуги</h4>
-    <label>Студентський квиток (пільга 50% на проїзд)
+    <h4>@(Ui.Pick("Пільга та послуги", "Discount and extras"))</h4>
+    <label>@(Ui.Pick("Студентський квиток", "Student ID")) (@(Ui.Pick("пільга", "discount")) 50% @(Ui.Pick("на проїзд", "for travel")))
         <input asp-for="StudentCard" maxlength="24" class="form-control" />
     </label><span asp-validation-for="StudentCard" class="text-danger"></span>
-    <p><label><input asp-for="Linen" /> Білизна (+60 грн)</label>
-       <label><input asp-for="Drink" /> Напій (+25 грн)</label></p>
-    <h4>Дані пасажира</h4>
+    <p><label><input asp-for="Linen" /> @(Ui.Pick("Білизна", "Bedding")) (+60 @(Ui.Pick("грн", "UAH")))</label>
+       <label><input asp-for="Drink" /> @(Ui.Pick("Напій", "Drink")) (+25 @(Ui.Pick("грн", "UAH")))</label></p>
+    <h4>@(Ui.Pick("Дані пасажира", "Passenger information"))</h4>
     @if (User.IsInRole("Cashier"))
     {
-        <label>Логін зареєстрованого клієнта (якщо є)
+        <label>@(Ui.Pick("Логін зареєстрованого клієнта", "Registered passenger username")) (@(Ui.Pick("якщо є", "if applicable")))
             <input asp-for="ClientLogin" class="form-control" />
         </label><span asp-validation-for="ClientLogin" class="text-danger"></span>
     }
@@ -193,7 +193,7 @@
     <button type="submit"
             class="btn btn-success">
 
-        Забронювати квиток
+        @(Ui.Pick("Забронювати квиток", "Book ticket"))
 
     </button>
 
@@ -202,7 +202,7 @@
        asp-route-id="@Model.TripId"
        class="btn btn-secondary">
 
-        Скасувати
+        @(Ui.Pick("Скасувати", "Cancel"))
 
     </a>
 

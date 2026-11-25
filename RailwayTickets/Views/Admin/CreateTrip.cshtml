@@ -1,10 +1,10 @@
 ﻿@model RailwayTickets.Models.Trip
 
 @{
-    ViewData["Title"] = "Новий рейс";
+    ViewData["Title"] = Ui.Pick("Новий рейс", "New trip");
 }
 
-<h1>Додавання рейсу</h1>
+<h1>@(Ui.Pick("Додавання рейсу", "Create trip"))</h1>
 
 <hr />
 
@@ -24,7 +24,7 @@
 
         <label asp-for="TripNumber"
                class="form-label">
-            Номер рейсу
+            @(Ui.Pick("Номер рейсу", "Trip number"))
         </label>
 
         <input asp-for="TripNumber"
@@ -42,20 +42,20 @@
         <div class="col-md-6 mb-3">
 
             <label class="form-label">
-                Маршрут
+                @(Ui.Pick("Маршрут", "Route"))
             </label>
 
             <select asp-for="RouteId"
                     class="form-select">
 
                 <option value="">
-                    Оберіть маршрут
+                    @(Ui.Pick("Оберіть маршрут", "Choose a route"))
                 </option>
 
                 @foreach (var route in ViewBag.Routes)
                 {
                     <option value="@route.Id">
-                        @route.StartStation → @route.EndStation
+                        @Ui.Station(route.StartStation) → @Ui.Station(route.EndStation)
                     </option>
                 }
 
@@ -71,14 +71,14 @@
         <div class="col-md-6 mb-3">
 
             <label class="form-label">
-                Потяг
+                @(Ui.Pick("Потяг", "Train"))
             </label>
 
             <select asp-for="TrainId"
                     class="form-select">
 
                 <option value="">
-                    Оберіть потяг
+                    @(Ui.Pick("Оберіть потяг", "Choose a train"))
                 </option>
 
                 @foreach (var train in ViewBag.Trains)
@@ -105,7 +105,7 @@
 
             <label asp-for="DepartureDate"
                    class="form-label">
-                Дата та час відправлення
+                @(Ui.Pick("Дата та час відправлення", "Departure date and time"))
             </label>
 
             <input asp-for="DepartureDate"
@@ -119,7 +119,7 @@
 
             <label asp-for="ArrivalDate"
                    class="form-label">
-                Дата та час прибуття
+                @(Ui.Pick("Дата та час прибуття", "Arrival date and time"))
             </label>
 
             <input asp-for="ArrivalDate"
@@ -139,7 +139,7 @@
 
         <label asp-for="BasePrice"
                class="form-label">
-            Базова вартість
+            @(Ui.Pick("Базова вартість", "Base fare"))
         </label>
 
         <input asp-for="BasePrice"
@@ -155,7 +155,7 @@
     <button type="submit"
             class="btn btn-success">
 
-        Додати рейс
+        @(Ui.Pick("Додати рейс", "Add trip"))
 
     </button>
 
@@ -163,7 +163,7 @@
     <a asp-action="Trips"
        class="btn btn-secondary">
 
-        Скасувати
+        @(Ui.Pick("Скасувати", "Cancel"))
 
     </a>
 

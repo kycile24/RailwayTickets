@@ -1,31 +1,31 @@
 ﻿@model RailwayTickets.Models.Passenger
 
 @{
-    ViewData["Title"] = "Додати пасажира";
+    ViewData["Title"] = Ui.Pick("Додати пасажира", "Add passenger");
 }
 
-<h2>Додати пасажира</h2>
+<h2>@(Ui.Pick("Додати пасажира", "Add passenger"))</h2>
 
 <form asp-action="Create" method="post">
     <div asp-validation-summary="All" class="text-danger"></div>
 
     <input asp-for="FullName" class="form-control mb-2"
-           placeholder="ПІБ" />
+           placeholder="@(Ui.Pick("ПІБ", "Full name"))" />
 
     <input asp-for="Phone" class="form-control mb-2"
-           placeholder="Телефон" />
+           placeholder="@(Ui.Pick("Телефон", "Phone"))" />
 
     <input asp-for="Email" class="form-control mb-2"
            placeholder="Email" />
 
     <input asp-for="Document" class="form-control mb-2"
-           placeholder="Документ" />
+           placeholder="@(Ui.Pick("Документ", "Document"))" />
 
     <button type="submit" class="btn btn-success">
-        Зберегти
+        @(Ui.Pick("Зберегти", "Save"))
     </button>
 
     <a asp-action="Index" class="btn btn-secondary">
-        Назад
+        @(Ui.Pick("Назад", "Back"))
     </a>
 </form>

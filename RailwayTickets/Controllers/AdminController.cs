@@ -96,34 +96,34 @@ namespace RailwayTickets.Controllers
             {
                 ModelState.AddModelError(
                     nameof(model.TrainId),
-                    "Оберіть потяг.");
+                    Ui.Pick("Оберіть потяг.", "Choose a train."));
             }
 
             if (route == null)
             {
                 ModelState.AddModelError(
                     nameof(model.RouteId),
-                    "Оберіть маршрут.");
+                    Ui.Pick("Оберіть маршрут.", "Choose a route."));
             }
 
             if (model.DepartureDate <= DateTime.Now)
             {
                 ModelState.AddModelError(nameof(model.DepartureDate),
-                    "Дата відправлення повинна бути в майбутньому.");
+                    Ui.Pick("Дата відправлення повинна бути в майбутньому.", "Departure must be in the future."));
             }
 
             if (model.ArrivalDate <= model.DepartureDate)
             {
                 ModelState.AddModelError(
                     nameof(model.ArrivalDate),
-                    "Час прибуття повинен бути пізніше часу відправлення.");
+                    Ui.Pick("Час прибуття повинен бути пізніше часу відправлення.", "Arrival must follow departure."));
             }
 
             if (model.BasePrice <= 0)
             {
                 ModelState.AddModelError(
                     nameof(model.BasePrice),
-                    "Вартість повинна бути більшою за 0.");
+                    Ui.Pick("Вартість повинна бути більшою за 0.", "Fare must be greater than 0."));
             }
 
             if (!ModelState.IsValid)
@@ -140,7 +140,7 @@ namespace RailwayTickets.Controllers
             _context.SaveChanges();
 
             TempData["Success"] =
-                "Новий рейс успішно додано.";
+                Ui.Pick("Новий рейс успішно додано.", "Trip added.");
 
             return RedirectToAction(nameof(Trips));
         }
@@ -204,7 +204,7 @@ namespace RailwayTickets.Controllers
                 (t.SeatNumber > model.SeatCount ||
                  model.CarriageNumber != carriage.CarriageNumber ||
                  model.TrainId != carriage.TrainId)))
-                ModelState.AddModelError("", "Не можна змінити вагон або прибрати місця з чинними квитками.");
+                ModelState.AddModelError("", Ui.Pick("Не можна змінити вагон або прибрати місця з чинними квитками.", "A carriage or seat with active tickets cannot be removed."));
 
             if (!ModelState.IsValid)
             {
@@ -231,7 +231,7 @@ namespace RailwayTickets.Controllers
             if (_context.Tickets.Any(t => t.Trip.TrainId == carriage.TrainId &&
                 t.CarriageNumber == carriage.CarriageNumber))
             {
-                TempData["Error"] = "Вагон має пов'язані квитки.";
+                TempData["Error"] = Ui.Pick("Вагон має пов'язані квитки.", "This carriage has linked tickets.");
                 return RedirectToAction(nameof(Carriages));
             }
 
@@ -245,12 +245,12 @@ namespace RailwayTickets.Controllers
         private void ValidateCarriage(Carriage model)
         {
             if (model.SeatCount < 1 || model.CarriageNumber < 1)
-                ModelState.AddModelError("", "Номер вагона й кількість місць мають бути додатними.");
+                ModelState.AddModelError("", Ui.Pick("Номер вагона й кількість місць мають бути додатними.", "Carriage number and seat count must be positive."));
             if (!_context.Trains.Any(t => t.Id == model.TrainId))
-                ModelState.AddModelError(nameof(model.TrainId), "Оберіть наявний потяг.");
+                ModelState.AddModelError(nameof(model.TrainId), Ui.Pick("Оберіть наявний потяг.", "Choose an existing train."));
             if (_context.Carriages.Any(c => c.TrainId == model.TrainId &&
                 c.CarriageNumber == model.CarriageNumber && c.Id != model.Id))
-                ModelState.AddModelError(nameof(model.CarriageNumber), "Цей номер вагона вже зайнятий у потязі.");
+                ModelState.AddModelError(nameof(model.CarriageNumber), Ui.Pick("Цей номер вагона вже зайнятий у потязі.", "This carriage number is already used on the train."));
         }
 
         // Редагування розкладу
@@ -290,34 +290,34 @@ namespace RailwayTickets.Controllers
             {
                 ModelState.AddModelError(
                     nameof(model.TrainId),
-                    "Оберіть потяг.");
+                    Ui.Pick("Оберіть потяг.", "Choose a train."));
             }
 
             if (route == null)
             {
                 ModelState.AddModelError(
                     nameof(model.RouteId),
-                    "Оберіть маршрут.");
+                    Ui.Pick("Оберіть маршрут.", "Choose a route."));
             }
 
             if (model.DepartureDate <= DateTime.Now)
             {
                 ModelState.AddModelError(nameof(model.DepartureDate),
-                    "Дата відправлення повинна бути в майбутньому.");
+                    Ui.Pick("Дата відправлення повинна бути в майбутньому.", "Departure must be in the future."));
             }
 
             if (model.ArrivalDate <= model.DepartureDate)
             {
                 ModelState.AddModelError(
                     nameof(model.ArrivalDate),
-                    "Час прибуття повинен бути пізніше часу відправлення.");
+                    Ui.Pick("Час прибуття повинен бути пізніше часу відправлення.", "Arrival must follow departure."));
             }
 
             if (model.BasePrice <= 0)
             {
                 ModelState.AddModelError(
                     nameof(model.BasePrice),
-                    "Вартість повинна бути більшою за 0.");
+                    Ui.Pick("Вартість повинна бути більшою за 0.", "Fare must be greater than 0."));
             }
 
             if (_context.Tickets.Any(t => t.TripId == model.Id) &&
@@ -326,7 +326,7 @@ namespace RailwayTickets.Controllers
                  trip.TrainId != model.TrainId ||
                  trip.RouteId != model.RouteId))
             {
-                ModelState.AddModelError("", "Не можна змінювати розклад, потяг або маршрут рейсу, на який уже є квитки.");
+                ModelState.AddModelError("", Ui.Pick("Не можна змінювати розклад, потяг або маршрут рейсу, на який уже є квитки.", "The timetable cannot be changed, train or trip route, with existing tickets."));
             }
 
             if (!ModelState.IsValid)
@@ -345,7 +345,7 @@ namespace RailwayTickets.Controllers
             _context.SaveChanges();
 
             TempData["Success"] =
-                "Розклад рейсу успішно оновлено.";
+                Ui.Pick("Розклад рейсу успішно оновлено.", "Trip timetable updated.");
 
             return RedirectToAction(nameof(Trips));
         }
@@ -372,7 +372,7 @@ namespace RailwayTickets.Controllers
             if (hasTickets)
             {
                 TempData["Error"] =
-                    "Неможливо видалити рейс, оскільки на нього вже існують квитки.";
+                    Ui.Pick("Неможливо видалити рейс, оскільки на нього вже існують квитки.", "Cannot delete this trip, because tickets already exist.");
 
                 return RedirectToAction(nameof(Trips));
             }
@@ -380,7 +380,7 @@ namespace RailwayTickets.Controllers
             _context.Trips.Remove(trip);
             _context.SaveChanges();
 
-            TempData["Success"] = "Рейс успішно видалено.";
+            TempData["Success"] = Ui.Pick("Рейс успішно видалено.", "Trip deleted.");
 
             return RedirectToAction(nameof(Trips));
         }
@@ -444,7 +444,7 @@ namespace RailwayTickets.Controllers
 
             if (_context.Trips.Any(t => t.RouteId == id))
             {
-                TempData["Error"] = "Маршрут використовується в рейсах.";
+                TempData["Error"] = Ui.Pick("Маршрут використовується в рейсах.", "This route has scheduled trips.");
                 return RedirectToAction(nameof(Routes));
             }
 
@@ -501,7 +501,7 @@ namespace RailwayTickets.Controllers
             if (_context.Trips.Any(t => t.TrainId == id) ||
                 _context.Carriages.Any(c => c.TrainId == id))
             {
-                TempData["Error"] = "Потяг має пов'язані рейси або вагони.";
+                TempData["Error"] = Ui.Pick("Потяг має пов'язані рейси або вагони.", "This train has linked trips or carriages.");
                 return RedirectToAction(nameof(Trains));
             }
 
@@ -529,13 +529,13 @@ namespace RailwayTickets.Controllers
                 string.IsNullOrWhiteSpace(password) ||
                 (role != "Cashier" && role != "Administrator"))
             {
-                ModelState.AddModelError("", "Заповніть усі поля.");
+                ModelState.AddModelError("", Ui.Pick("Заповніть усі поля.", "Complete all fields."));
                 return View();
             }
 
             if (_context.Employees.Any(e => e.Login == login))
             {
-                ModelState.AddModelError("", "Такий логін уже існує.");
+                ModelState.AddModelError("", Ui.Pick("Такий логін уже існує.", "This username is already taken."));
                 return View();
             }
 
@@ -572,13 +572,13 @@ namespace RailwayTickets.Controllers
                 string.IsNullOrWhiteSpace(login) ||
                 string.IsNullOrWhiteSpace(password))
             {
-                ModelState.AddModelError("", "Заповніть усі поля.");
+                ModelState.AddModelError("", Ui.Pick("Заповніть усі поля.", "Complete all fields."));
                 return View(employee);
             }
 
             if (_context.Employees.Any(e => e.Login == login && e.Id != id))
             {
-                ModelState.AddModelError("", "Такий логін уже існує.");
+                ModelState.AddModelError("", Ui.Pick("Такий логін уже існує.", "This username is already taken."));
                 return View(employee);
             }
 
@@ -598,12 +598,12 @@ namespace RailwayTickets.Controllers
             if (employee == null) return NotFound();
 
             if (employee.Id == User.AccountId())
-                return Conflict("Неможливо видалити власний обліковий запис.");
+                return Conflict(Ui.Pick("Неможливо видалити власний обліковий запис.", "You cannot delete your own account."));
             if (employee is Cashier &&
                 (_context.Tickets.Any(t => t.CashierId == id) ||
                  _context.ReturnRequests.Any(r => r.CashierId == id)))
             {
-                TempData["Error"] = "Касир має пов'язані записи.";
+                TempData["Error"] = Ui.Pick("Касир має пов'язані записи.", "This cashier has linked records.");
                 return RedirectToAction(nameof(Employees));
             }
 

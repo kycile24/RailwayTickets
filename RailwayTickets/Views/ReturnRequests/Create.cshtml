@@ -1,7 +1,7 @@
 ﻿
 @model RailwayTickets.Models.ReturnRequest
 
-<h2>Додати заявку на повернення</h2>
+<h2>@(Ui.Pick("Додати заявку на повернення", "Add refund request"))</h2>
 
 @if (TempData["Error"] != null)
 {
@@ -11,9 +11,9 @@
 <form asp-action="Create" method="post">
     @Html.AntiForgeryToken()
 
-    <label>Квиток</label>
+    <label>@(Ui.Pick("Квиток", "Ticket"))</label>
     <select name="ticketId" class="form-select mb-3" required>
-        <option value="">Оберіть квиток</option>
+        <option value="">@(Ui.Pick("Оберіть квиток", "Choose a ticket"))</option>
 
         @foreach (var ticket in ViewBag.Tickets)
         {
@@ -32,16 +32,16 @@
         }
     </select>
 
-    <label>Причина повернення</label>
+    <label>@(Ui.Pick("Причина повернення", "Refund reason"))</label>
     <textarea name="reason"
               class="form-control mb-3"
               required></textarea>
 
     <button type="submit" class="btn btn-success">
-        Створити заявку
+        @(Ui.Pick("Створити заявку", "Create request"))
     </button>
 
     <a asp-action="Index" class="btn btn-secondary">
-        Назад
+        @(Ui.Pick("Назад", "Back"))
     </a>
 </form>

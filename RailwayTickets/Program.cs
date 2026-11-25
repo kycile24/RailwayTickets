@@ -49,6 +49,9 @@ var app = builder.Build();
 if (!app.Environment.IsDevelopment()) app.UseHsts();
 app.UseHttpsRedirection();
 app.UseStaticFiles();
+app.UseRequestLocalization(new RequestLocalizationOptions()
+    .SetDefaultCulture("uk-UA").AddSupportedCultures("uk-UA", "en-US")
+    .AddSupportedUICultures("uk-UA", "en-US"));
 app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
