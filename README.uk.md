@@ -1,97 +1,36 @@
-<div align="center">
-
 # RailwayTickets
 
-### Система пошуку рейсів, бронювання квитків і роботи каси
+Система бронювання залізничних квитків на ASP.NET Core MVC. Пасажир обирає рейс і місце, касир оформлює квиток, а адміністратор перевіряє операції закритої зміни.
 
-Пошук маршруту, резервування місця, повернення квитків та інструменти для пасажирів, касирів і адміністраторів.
+**[Відкрити розклад](https://railwaytickets-kycile24.onrender.com/Trips)** · [English](README.md)
 
-**ASP.NET Core 8 · C# · Entity Framework Core · SQL Server**
+## Спробувати демо
 
-[English](README.md)
+Відкрий рейс Київ → Львів і переглянь вагони, місця та вартість. Для бронювання створи демоакаунт із вигаданими даними. Публічне демо працює на SQLite. При заміні контейнера Render відновлює початкові рейси та квитки.
 
-</div>
-
----
-
-## Про проєкт
-
-RailwayTickets — навчальна система обліку залізничних квитків. Пасажир шукає рейси й керує бронюваннями, касир оформлює продажі та розглядає повернення, адміністратор підтримує довідники й переглядає операції.
-
-Застосунок побудований на ASP.NET Core MVC, Razor і Entity Framework Core та працює з SQL Server. Доступ до дій контролерів перевіряється за ролями.
-
-## Можливості
-
-- Пошук рейсів за станціями та датою відправлення.
-- Перегляд деталей рейсу й бронювання місця у вагоні.
-- Перегляд квитків пасажира та подання заявки на повернення.
-- Продаж квитків і ведення касових змін.
-- Керування потягами, вагонами, маршрутами, рейсами й обліковими записами працівників.
-- Журнал касових операцій і адміністративних змін.
-- Генерація демонстраційних даних лише в Development.
-
-## Технології
-
-| Напрям | Інструменти |
+| Роль | Можливості |
 | --- | --- |
-| Застосунок | ASP.NET Core MVC, .NET 8, C# |
-| Дані | Entity Framework Core 8, SQL Server, міграції EF Core |
-| Інтерфейс | Razor, Bootstrap, адаптивний CSS |
-| Аутентифікація | Cookie authentication, ролі, хешування паролів ASP.NET |
+| Пасажир | Пошук рейсів, бронювання місця, перегляд квитків, заявка на повернення |
+| Касир | Оформлення квитків, розгляд повернень, закриття касової зміни |
+| Адміністратор | Керування розкладом і працівниками, затвердження касових звітів, журнал змін |
 
-## Запуск локально
+## Як захищено бронювання
 
-### Потрібно
+Унікальний індекс дозволяє мати лише один активний квиток на конкретне місце у вагоні на рейсі. Записи про квиток та пов’язану касову операцію фіксуються в транзакції. Сервер перевіряє роль користувача перед виконанням дії.
 
-- .NET 8 SDK
-- SQL Server або SQL Server LocalDB
-- Visual Studio 2022 чи інший редактор із підтримкою .NET
+[Модель та обмеження БД](RailwayTickets/Data/RailwayDbContext.cs) · [Транзакції](RailwayTickets/Services/AtomicWrite.cs) · [Бронювання](RailwayTickets/Controllers/TicketsController.cs)
 
-### Кроки
+## Локальний запуск
 
-1. Клонуйте репозиторій і відкрийте `RailwayTickets.sln`.
-2. Задайте рядок підключення через User Secrets. Для LocalDB виконайте команди з кореня репозиторію:
+З кореня репозиторію виконай команди нижче в Bash із встановленим Docker. Задай власний пароль першого адміністратора. Розклад буде доступний за адресою http://localhost:8080/Trips.
 
-   ```bash
-   dotnet user-secrets init --project RailwayTickets/RailwayTickets.csproj
-   dotnet user-secrets set "ConnectionStrings:RailwayConnection" "Server=(localdb)\\MSSQLLocalDB;Database=RailwayTicketsDb;Trusted_Connection=True;TrustServerCertificate=True;" --project RailwayTickets/RailwayTickets.csproj
-   ```
-
-3. Запустіть застосунок:
-
-   ```bash
-   dotnet run --project RailwayTickets/RailwayTickets.csproj
-   ```
-
-Під час запуску застосунок застосовує EF Core міграції. У середовищі Development також створюються демонстраційні записи. За потреби вкажіть рядок підключення для встановленої версії SQL Server.
-
-Перед першим запуском задай змінну середовища `Bootstrap__AdminPassword`. Для демонстраційних записів у Development також задай окремий `Demo__Password` щонайменше з восьми символів.
-
-## Структура
-
-```text
-RailwayTickets/
-├── RailwayTickets.sln
-├── RailwayTickets/
-│   ├── Controllers/       MVC дії та перевірки ролей
-│   ├── Data/              Контекст EF Core, міграції, Development seed
-│   ├── Models/            Сутності предметної області
-│   ├── Views/             Razor сторінки
-│   └── wwwroot/            CSS, JavaScript і статичні ресурси
+```bash
+docker build -t railwaytickets .
+read -rs -p 'Admin password: ' Bootstrap__AdminPassword; echo
+export Bootstrap__AdminPassword
+docker run --rm -p 8080:10000 -e Bootstrap__AdminPassword railwaytickets
 ```
 
-## Примітки
+**Stack** · C# / .NET 8 · Razor MVC · EF Core · SQL Server / SQLite · Docker · Render
 
-- Це навчальний проєкт, а не production-сервіс продажу залізничних квитків.
-- Для розгортання потрібні керований SQL Server, надійний пароль адміністратора, HTTPS та окрема перевірка вимог до зберігання даних і роботи сервісу.
-
-## Інші проєкти
-
-- [Warehouse Management System](https://github.com/kycile24/wms-api) — ASP.NET Core API для обліку запасів, замовлень і складських процесів.
-- [TaskFlow API](https://github.com/kycile24/TaskFlow.Api) — API на .NET 8 із сервісами та репозиторіями для керування завданнями.
-
-## Ліцензія
-
-Відкриту ліцензію ще не обрано. Усі права належать автору, доки до проєкту не буде додано ліцензію.
-
-Render запускає SQLite-демо з вигаданими рейсами та пасажирами. Зміни скидаються при заміні контейнера.
+Інший проєкт · [Warehouse Management API](https://github.com/kycile24/wms-api)

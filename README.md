@@ -1,97 +1,36 @@
-<div align="center">
-
 # RailwayTickets
 
-### Railway booking and cashier operations in one ASP.NET Core MVC application
+A railway booking application built with ASP.NET Core MVC. A passenger reserves a seat, a cashier issues the ticket, and an administrator reconciles the shift.
 
-Search routes, reserve seats, manage ticket returns, and review cashier activity through role-based workspaces.
+**[Explore the live timetable](https://railwaytickets-kycile24.onrender.com/Trips)** · [Українською](README.uk.md)
 
-**ASP.NET Core 8 · C# · Entity Framework Core · SQL Server**
+## Try a booking
 
-[Українська версія](README.uk.md)
+Open the Kyiv → Lviv trip to inspect its carriages, seats, and fares. To reserve a seat, register a passenger account using fictional details. The public demo uses SQLite and restores its sample schedule and tickets when Render replaces the container.
 
-</div>
-
----
-
-## Overview
-
-RailwayTickets is a university project built around a railway ticket workflow. Passengers can find trips and manage bookings; cashiers process ticket sales and return requests; administrators maintain route data and review operational records.
-
-The app uses ASP.NET Core MVC with server-rendered Razor views, Entity Framework Core, and SQL Server. Authorization is enforced on controller actions, while the interface exposes tools for the signed-in role.
-
-## Features
-
-- Search trips by stations and departure date.
-- View trip details and reserve a carriage seat.
-- Manage passenger tickets and submit return requests.
-- Process ticket sales and cashier shifts.
-- Maintain trains, carriages, routes, trips, and staff accounts.
-- Record cash operations and administrative changes.
-- Seed realistic sample data in Development only.
-
-## Technology
-
-| Area | Tools |
+| Workspace | What you can do |
 | --- | --- |
-| Application | ASP.NET Core MVC, .NET 8, C# |
-| Data | Entity Framework Core 8, SQL Server, EF Core migrations |
-| UI | Razor, Bootstrap, custom responsive CSS |
-| Authentication | Cookie authentication, role-based authorization, ASP.NET password hashing |
+| Passenger | Find a trip, reserve a seat, view tickets, request a refund |
+| Cashier | Issue tickets, review refund requests, close a cash shift |
+| Administrator | Manage schedules and staff, approve shift reports, review the audit trail |
+
+## How seat reservations stay consistent
+
+A unique index allows only one active ticket per trip, carriage, and seat. Ticket changes and their associated cash entries commit in a single transaction. Controller actions enforce staff permissions on the server.
+
+[Database constraints](RailwayTickets/Data/RailwayDbContext.cs) · [Transaction handling](RailwayTickets/Services/AtomicWrite.cs) · [Booking flow](RailwayTickets/Controllers/TicketsController.cs)
 
 ## Run locally
 
-### Requirements
+From the repository root, run these commands in Bash with Docker installed. Choose a password for the initial administrator. Open http://localhost:8080/Trips when the application starts.
 
-- .NET 8 SDK
-- SQL Server or SQL Server LocalDB
-- Visual Studio 2022 or a .NET-capable editor
-
-### Start
-
-1. Clone the repository and open `RailwayTickets.sln`.
-2. Set the connection string with User Secrets. For LocalDB, run from the repository root:
-
-   ```bash
-   dotnet user-secrets init --project RailwayTickets/RailwayTickets.csproj
-   dotnet user-secrets set "ConnectionStrings:RailwayConnection" "Server=(localdb)\\MSSQLLocalDB;Database=RailwayTicketsDb;Trusted_Connection=True;TrustServerCertificate=True;" --project RailwayTickets/RailwayTickets.csproj
-   ```
-
-3. Start the app:
-
-   ```bash
-   dotnet run --project RailwayTickets/RailwayTickets.csproj
-   ```
-
-The application applies EF Core migrations at startup. Development mode also creates demonstration data. Configure the connection string for the database engine available on your machine.
-
-Before first startup, set `Bootstrap__AdminPassword` in your environment. To populate a local Development database, also set `Demo__Password` to a separate password of at least eight characters.
-
-## Project structure
-
-```text
-RailwayTickets/
-├── RailwayTickets.sln
-├── RailwayTickets/
-│   ├── Controllers/       MVC endpoints and role checks
-│   ├── Data/              EF Core context, migrations, and Development seed
-│   ├── Models/            Domain entities
-│   ├── Views/             Razor pages
-│   └── wwwroot/            CSS, JavaScript, and static assets
+```bash
+docker build -t railwaytickets .
+read -rs -p 'Admin password: ' Bootstrap__AdminPassword; echo
+export Bootstrap__AdminPassword
+docker run --rm -p 8080:10000 -e Bootstrap__AdminPassword railwaytickets
 ```
 
-## Notes
+**Stack** · C# / .NET 8 · Razor MVC · EF Core · SQL Server / SQLite · Docker · Render
 
-- This is an educational project, not a production railway reservation service.
-- Production deployment requires a managed SQL Server connection, a strong bootstrap administrator password, HTTPS, and production review of operational and privacy requirements.
-
-## Other projects
-
-- [Warehouse Management System](https://github.com/kycile24/wms-api) — ASP.NET Core API for inventory, orders, and warehouse workflows.
-- [TaskFlow API](https://github.com/kycile24/TaskFlow.Api) — .NET 8 task-management API with layered services and repositories.
-
-## License
-
-No open-source license has been selected yet. All rights remain with the author unless a license is added.
-
-The Render demo uses SQLite with fictional trips and passengers. Replacing the container resets its data.
+Related project · [Warehouse Management API](https://github.com/kycile24/wms-api)
