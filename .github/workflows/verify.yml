@@ -27,3 +27,12 @@ jobs:
             curl -fsS -b ".AspNetCore.Culture=c=$culture|uic=$culture" http://localhost:5187/Trips > "$RUNNER_TEMP/page"
             grep -q "lang=\"${culture%%-*}\"" "$RUNNER_TEMP/page"
           done
+          curl -fsS -c "$RUNNER_TEMP/cookies" http://localhost:5187/Trips > "$RUNNER_TEMP/form"
+          token=$(sed -n 's/.*name="__RequestVerificationToken" type="hidden" value="\([^"]*\)".*/\1/p' "$RUNNER_TEMP/form" | head -1)
+          test -n "$token"
+          curl -fsS -c "$RUNNER_TEMP/cookies" -b "$RUNNER_TEMP/cookies" \
+            --data-urlencode "__RequestVerificationToken=$token" --data-urlencode "language=en" \
+            --data-urlencode "returnUrl=/Trips" http://localhost:5187/Language/Set -o /dev/null
+          curl -fsS -b "$RUNNER_TEMP/cookies" http://localhost:5187/Trips > "$RUNNER_TEMP/english"
+          grep -q 'lang="en"' "$RUNNER_TEMP/english"
+          grep -q 'Find trips' "$RUNNER_TEMP/english"

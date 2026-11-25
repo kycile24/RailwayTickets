@@ -1,6 +1,4 @@
-﻿@{
-    ViewData["Title"] = "Privacy Policy";
-}
+@{ ViewData["Title"] = Ui.Pick("Конфіденційність", "Privacy"); }
 <h1>@ViewData["Title"]</h1>
-
-<p>Use this page to detail your site's privacy policy.</p>
+<p>@Ui.Pick("Цей сайт використовує файли cookie для входу, захисту форм і збереження вибраної мови.",
+             "This site uses cookies for sign-in, form protection and your language preference.")</p>
