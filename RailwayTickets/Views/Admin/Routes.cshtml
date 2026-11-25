@@ -1,0 +1,93 @@
+﻿@model IEnumerable<RailwayTickets.Models.Route>
+
+@{
+    ViewData["Title"] = "Маршрути";
+}
+
+<h1>Маршрути</h1>
+
+<table class="table table-bordered table-hover">
+
+    <thead class="table-dark">
+
+        <tr>
+            <th>Номер</th>
+            <th>Назва</th>
+            <th>Початкова станція</th>
+            <th>Кінцева станція</th>
+            <th>Дії</th>
+        </tr>
+
+    </thead>
+
+    <tbody>
+
+<a asp-action="CreateRoute" class="btn btn-success mb-3">
+    Додати маршрут
+</a>
+
+@if (TempData["Error"] != null)
+{
+    <div class="alert alert-danger">
+        @TempData["Error"]
+    </div>
+}
+
+
+        @foreach (var route in Model)
+        {
+            <tr>
+
+                <td>
+                    @route.RouteNumber
+                </td>
+
+                <td>
+                    @route.Name
+                </td>
+
+                <td>
+                    @route.StartStation
+                </td>
+
+                <td>
+                    @route.EndStation
+                </td>
+
+<td>
+    <a asp-action="EditRoute"
+       asp-route-id="@route.Id"
+       class="btn btn-sm btn-warning">
+        Редагувати
+    </a>
+
+    <form asp-action="DeleteRoute"
+          asp-route-id="@route.Id"
+          method="post"
+          class="d-inline">
+
+        @Html.AntiForgeryToken()
+
+        <button type="submit"
+                class="btn btn-sm btn-danger"
+                onclick="return confirm('Видалити маршрут?')">
+            Видалити
+        </button>
+    </form>
+</td>
+
+            </tr>
+
+        }
+
+    </tbody>
+
+</table>
+
+
+<a asp-action="Index"
+   class="btn btn-secondary">
+
+    Назад
+
+</a>

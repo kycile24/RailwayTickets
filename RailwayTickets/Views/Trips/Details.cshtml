@@ -1,0 +1,134 @@
+﻿@model RailwayTickets.Models.Trip
+
+@{
+    ViewData["Title"] = "Рейс";
+}
+
+<h1>
+    Рейс @Model.TripNumber
+</h1>
+
+<p class="text-muted">
+    @Model.Route.StartStation
+    →
+    @Model.Route.EndStation
+</p>
+
+<hr />
+
+
+<div class="row">
+
+    <div class="col-md-6">
+
+        <h4>Інформація про рейс</h4>
+
+        <table class="table">
+
+            <tr>
+                <th>Маршрут</th>
+                <td>@Model.Route.Name</td>
+            </tr>
+
+            <tr>
+                <th>Відправлення</th>
+
+                <td>
+                    @Model.DepartureDate.ToString("dd.MM.yyyy HH:mm")
+                </td>
+            </tr>
+
+            <tr>
+                <th>Прибуття</th>
+
+                <td>
+                    @Model.ArrivalDate.ToString("dd.MM.yyyy HH:mm")
+                </td>
+            </tr>
+
+            <tr>
+                <th>Вартість</th>
+
+                <td>
+                    @Model.BasePrice.ToString("0.00") грн
+                </td>
+            </tr>
+
+        </table>
+
+    </div>
+
+
+    <div class="col-md-6">
+
+        <h4>Потяг</h4>
+
+        <table class="table">
+
+            <tr>
+                <th>Номер</th>
+                <td>@Model.Train.TrainNumber</td>
+            </tr>
+
+            <tr>
+                <th>Тип</th>
+                <td>@Model.Train.Type</td>
+            </tr>
+
+            <tr>
+                <th>Вагонів</th>
+                <td>@Model.Train.CarriageCount</td>
+            </tr>
+
+        </table>
+
+    </div>
+
+</div>
+
+
+<h4 class="mt-4">
+    Вагони
+</h4>
+
+<table class="table table-bordered">
+
+    <thead>
+        <tr>
+            <th>Вагон</th>
+            <th>Тип</th>
+            <th>Місць</th>
+        </tr>
+    </thead>
+
+    <tbody>
+
+        @foreach (var carriage in Model.Train.Carriages)
+        {
+            <tr>
+                <td>@carriage.CarriageNumber</td>
+                <td>@carriage.CarriageType</td>
+                <td>@carriage.SeatCount</td>
+            </tr>
+        }
+
+    </tbody>
+
+</table>
+
+
+<a asp-action="Index"
+   class="btn btn-secondary">
+
+    Назад
+
+</a>
+
+<a asp-controller="Tickets"
+   asp-action="Book"
+   asp-route-tripId="@Model.Id"
+   class="btn btn-success">
+
+    Забронювати квиток
+
+</a>

@@ -1,0 +1,174 @@
+﻿@model IEnumerable<RailwayTickets.Models.Ticket>
+
+@{
+    ViewData["Title"] = "Касир";
+}
+
+<h1>Робоче місце касира</h1>
+
+<p class="text-muted">
+    Оформлення та контроль залізничних квитків.
+</p>
+
+<hr />
+
+
+@if (!Model.Any())
+{
+    <div class="alert alert-info">
+
+        Квитків поки немає.
+
+    </div>
+}
+else
+{
+    <table class="table table-bordered table-hover align-middle">
+
+        <thead class="table-dark">
+
+            <tr>
+                <th>Квиток</th>
+                <th>Пасажир</th>
+                <th>Маршрут</th>
+                <th>Рейс</th>
+                <th>Місце</th>
+                <th>Ціна</th>
+                <th>Статус</th>
+                <th>Дії</th>
+            </tr>
+
+        </thead>
+
+        <tbody>
+
+            @foreach (var ticket in Model)
+            {
+                <tr>
+
+                    <td>
+                        @ticket.TicketNumber
+                    </td>
+
+                    <td>
+                        @ticket.Passenger.FullName
+                    </td>
+
+                    <td>
+                        @ticket.Trip.Route.StartStation
+                        →
+                        @ticket.Trip.Route.EndStation
+                    </td>
+
+                    <td>
+                        @ticket.Trip.TripNumber
+                    </td>
+
+                    <td>
+                        @ticket.SeatNumber
+                    </td>
+
+                    <td>
+                        @ticket.Price.ToString("0.00") грн
+                    </td>
+
+                    <td>
+
+                        @if (ticket.Status == "Заброньовано")
+                        {
+                            <span class="badge bg-warning text-dark">
+                                Заброньовано
+                            </span>
+                        }
+                        else if (ticket.Status == "Оформлено")
+                        {
+                            <span class="badge bg-success">
+                                Оформлено
+                            </span>
+                        }
+                        else if (ticket.Status == "Повернено")
+                        {
+                            <span class="badge bg-secondary">
+                                Повернено
+                            </span>
+                        }
+                        else if (ticket.Status == "Скасовано")
+                        {
+                            <span class="badge bg-danger">
+                                Скасовано
+                            </span>
+                        }
+                        else
+                        {
+                            <span class="badge bg-secondary">
+                                @ticket.Status
+                            </span>
+                        }
+
+                    </td>
+
+                    <td>
+
+                        <a asp-controller="Tickets"
+                           asp-action="Details"
+                           asp-route-id="@ticket.Id"
+                           class="btn btn-sm btn-outline-primary mb-1">
+
+                            Переглянути
+
+                        </a>
+
+
+                        @if (ticket.Status == "Заброньовано")
+                        {
+                            <form asp-controller="Cashier"
+                                  asp-action="IssueTicket"
+                                  method="post"
+                                  class="d-inline">
+
+                                @Html.AntiForgeryToken()
+
+                                <input type="hidden"
+                                       name="id"
+                                       value="@ticket.Id" />
+
+                                <button type="submit"
+                                        class="btn btn-sm btn-success mb-1">
+
+                                    Оформити
+
+                                </button>
+
+                            </form>
+
+
+                            <form asp-controller="Cashier"
+                                  asp-action="CancelTicket"
+                                  method="post"
+                                  class="d-inline">
+
+                                @Html.AntiForgeryToken()
+
+                                <input type="hidden"
+                                       name="id"
+                                       value="@ticket.Id" />
+
+                                <button type="submit"
+                                        class="btn btn-sm btn-danger mb-1">
+
+                                    Скасувати
+
+                                </button>
+
+                            </form>
+                        }
+
+                    </td>
+
+                </tr>
+            }
+
+        </tbody>
+
+    </table>
+}

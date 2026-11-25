@@ -1,0 +1,16 @@
+﻿@model RailwayTickets.Models.Route
+
+<h2>Редагувати маршрут</h2>
+
+<form asp-action="EditRoute" method="post">
+    <input type="hidden" asp-for="Id" />
+
+    <input asp-for="RouteNumber" class="form-control mb-2" />
+    <input asp-for="Name" class="form-control mb-2" />
+    <input asp-for="StartStation" class="form-control mb-2" />
+    <input asp-for="EndStation" class="form-control mb-2" />
+
+    <button type="submit" class="btn btn-warning">
+        Зберегти зміни
+    </button>
+</form>

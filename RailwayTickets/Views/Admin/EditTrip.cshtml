@@ -1,0 +1,167 @@
+﻿@model RailwayTickets.Models.Trip
+
+@{
+    ViewData["Title"] = "Редагування рейсу";
+}
+
+<h1>Редагування рейсу</h1>
+
+<p class="text-muted">
+    Зміна розкладу та параметрів рейсу @Model.TripNumber.
+</p>
+
+<hr />
+
+
+<form asp-action="EditTrip"
+      method="post">
+
+    @Html.AntiForgeryToken()
+
+    <input asp-for="Id"
+           type="hidden" />
+
+
+    <div asp-validation-summary="ModelOnly"
+         class="text-danger mb-3">
+    </div>
+
+
+    <div class="mb-3">
+
+        <label asp-for="TripNumber"
+               class="form-label">
+            Номер рейсу
+        </label>
+
+        <input asp-for="TripNumber"
+               class="form-control" />
+
+        <span asp-validation-for="TripNumber"
+              class="text-danger">
+        </span>
+
+    </div>
+
+
+    <div class="row">
+
+        <div class="col-md-6 mb-3">
+
+            <label class="form-label">
+                Маршрут
+            </label>
+
+            <select asp-for="RouteId"
+                    class="form-select">
+
+                @foreach (var route in ViewBag.Routes)
+                {
+                    <option value="@route.Id">
+                        @route.StartStation → @route.EndStation
+                    </option>
+                }
+
+            </select>
+
+        </div>
+
+
+        <div class="col-md-6 mb-3">
+
+            <label class="form-label">
+                Потяг
+            </label>
+
+            <select asp-for="TrainId"
+                    class="form-select">
+
+                @foreach (var train in ViewBag.Trains)
+                {
+                    <option value="@train.Id">
+                        @train.TrainNumber — @train.Type
+                    </option>
+                }
+
+            </select>
+
+        </div>
+
+    </div>
+
+
+    <div class="row">
+
+        <div class="col-md-6 mb-3">
+
+            <label asp-for="DepartureDate"
+                   class="form-label">
+                Відправлення
+            </label>
+
+            <input asp-for="DepartureDate"
+                   type="datetime-local"
+                   class="form-control" />
+
+        </div>
+
+
+        <div class="col-md-6 mb-3">
+
+            <label asp-for="ArrivalDate"
+                   class="form-label">
+                Прибуття
+            </label>
+
+            <input asp-for="ArrivalDate"
+                   type="datetime-local"
+                   class="form-control" />
+
+            <span asp-validation-for="ArrivalDate"
+                  class="text-danger">
+            </span>
+
+        </div>
+
+    </div>
+
+
+    <div class="mb-3">
+
+        <label asp-for="BasePrice"
+               class="form-label">
+            Базова вартість
+        </label>
+
+        <input asp-for="BasePrice"
+               class="form-control" />
+
+        <span asp-validation-for="BasePrice"
+              class="text-danger">
+        </span>
+
+    </div>
+
+
+    <button type="submit"
+            class="btn btn-primary">
+
+        Зберегти зміни
+
+    </button>
+
+
+    <a asp-action="Trips"
+       class="btn btn-secondary">
+
+        Скасувати
+
+    </a>
+
+</form>
+
+
+@section Scripts
+{
+    <partial name="_ValidationScriptsPartial" />
+}

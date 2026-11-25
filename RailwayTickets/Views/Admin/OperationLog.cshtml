@@ -1,0 +1,17 @@
+@model List<RailwayTickets.ViewModels.OperationLogRow>
+<h1>Журнал змін</h1>
+<table class="table table-striped">
+    <thead><tr><th>№</th><th>Час UTC</th><th>Виконавець</th><th>Таблиця</th><th>ID запису</th><th>Дія</th></tr></thead>
+    <tbody>
+    @foreach (var row in Model)
+    {
+        <tr><td>@row.Id</td><td>@row.OccurredUtc.ToString("dd.MM.yyyy HH:mm:ss")</td>
+            <td>@row.Actor</td><td>@row.EntityName</td><td>@row.EntityId</td><td>@row.Operation</td></tr>
+    }
+    </tbody>
+</table>
+@if (Model.Count == 100)
+{
+    <a asp-action="OperationLog" asp-route-before="@Model.Last().Id">Старіші записи</a>
+}
+<a asp-action="Index">До панелі адміністратора</a>

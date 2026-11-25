@@ -1,0 +1,26 @@
+# Build output
+**/bin/
+**/obj/
+**/out/
+
+# Visual Studio and editor state
+.vs/
+.idea/
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+.vscode/
+
+# Local settings and credentials
+.env
+.env.*
+!.env.example
+secrets.json
+appsettings.Local.json
+
+# OS and temporary files
+.DS_Store
+Thumbs.db
+*.log
+*.tmp

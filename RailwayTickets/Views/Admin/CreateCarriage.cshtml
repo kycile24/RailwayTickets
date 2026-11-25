@@ -1,0 +1,30 @@
+﻿
+@model RailwayTickets.Models.Carriage
+
+<h2>Додати вагон</h2>
+
+<form asp-action="CreateCarriage" method="post">
+    <div asp-validation-summary="All" class="text-danger"></div>
+
+    <label>Номер вагона</label>
+    <input asp-for="CarriageNumber" type="number"
+           class="form-control mb-2" />
+
+    <label>Тип вагона</label>
+    <input asp-for="CarriageType" class="form-control mb-2" />
+
+    <label>Кількість місць</label>
+    <input asp-for="SeatCount" type="number"
+           class="form-control mb-2" />
+
+    <label>Потяг</label>
+    <select asp-for="TrainId" class="form-select mb-3">
+        @foreach (var train in ViewBag.Trains)
+        {
+            <option value="@train.Id">@train.TrainNumber</option>
+        }
+    </select>
+
+    <button class="btn btn-success">Зберегти</button>
+    <a asp-action="Carriages" class="btn btn-secondary">Назад</a>
+</form>

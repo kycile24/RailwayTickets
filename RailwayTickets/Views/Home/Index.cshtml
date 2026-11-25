@@ -1,0 +1,82 @@
+@{
+    ViewData["Title"] = "Залізничні подорожі";
+}
+
+<section class="hero-panel" aria-labelledby="home-title">
+    <div class="hero-copy">
+        <span class="eyebrow">Єдина система керування поїздками</span>
+        <h1 id="home-title">Ваша подорож починається з правильного маршруту</h1>
+        <p>Знайдіть потрібний рейс, оберіть місце та керуйте квитками в одному зручному сервісі.</p>
+        <div class="hero-actions">
+            <a asp-controller="Trips" asp-action="Index" class="btn btn-primary btn-lg">Знайти рейс <span aria-hidden="true">→</span></a>
+            @if (User.Identity?.IsAuthenticated != true)
+            {
+                <a asp-controller="Account" asp-action="Login" class="btn btn-outline-light btn-lg">Увійти в акаунт</a>
+            }
+            else
+            {
+                <a asp-controller="Tickets" asp-action="Index" class="btn btn-outline-light btn-lg">Мої квитки</a>
+            }
+        </div>
+        <div class="hero-meta" aria-label="Можливості системи">
+            <span><strong>01</strong> Пошук рейсів</span>
+            <span><strong>02</strong> Бронювання місць</span>
+            <span><strong>03</strong> Касові операції</span>
+        </div>
+    </div>
+</section>
+
+<section aria-labelledby="features-title">
+    <div class="section-heading">
+        <div>
+            <span class="eyebrow">Можливості платформи</span>
+            <h2 id="features-title">Усе для керування поїздкою</h2>
+            <p>Зрозумілий шлях для пасажирів і зручні інструменти для команди.</p>
+        </div>
+    </div>
+
+    <div class="row g-3 g-lg-4">
+        <div class="col-md-6 col-xl-4">
+            <article class="feature-card">
+                <div class="feature-icon" aria-hidden="true">↗</div>
+                <h3>Пошук і розклад</h3>
+                <p>Порівнюйте маршрути, час відправлення та прибуття, потяги й вартість квитків.</p>
+                <a asp-controller="Trips" asp-action="Index" class="feature-link">Переглянути рейси</a>
+            </article>
+        </div>
+        <div class="col-md-6 col-xl-4">
+            <article class="feature-card">
+                <div class="feature-icon" aria-hidden="true">▦</div>
+                <h3>Квитки та повернення</h3>
+                <p>Оформлюйте бронювання, перевіряйте свої квитки та надсилайте заявку на повернення.</p>
+                @if (User.Identity?.IsAuthenticated == true)
+                {
+                    <a asp-controller="Tickets" asp-action="Index" class="feature-link">Відкрити квитки</a>
+                }
+                else
+                {
+                    <a asp-controller="Account" asp-action="Register" class="feature-link">Створити акаунт</a>
+                }
+            </article>
+        </div>
+        <div class="col-md-6 col-xl-4">
+            <article class="feature-card">
+                <div class="feature-icon" aria-hidden="true">◎</div>
+                <h3>Робочі інструменти</h3>
+                <p>Касири та адміністратори працюють із пасажирами, заявками, змінами й даними рейсів.</p>
+                @if (User.IsInRole("Administrator"))
+                {
+                    <a asp-controller="Admin" asp-action="Index" class="feature-link">Відкрити керування</a>
+                }
+                else if (User.IsInRole("Cashier"))
+                {
+                    <a asp-controller="Cashier" asp-action="Index" class="feature-link">Відкрити касу</a>
+                }
+                else
+                {
+                    <a asp-controller="Account" asp-action="Login" class="feature-link">Вхід для працівників</a>
+                }
+            </article>
+        </div>
+    </div>
+</section>

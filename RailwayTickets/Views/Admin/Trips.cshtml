@@ -1,0 +1,124 @@
+﻿@model IEnumerable<RailwayTickets.Models.Trip>
+
+@{
+    ViewData["Title"] = "Керування рейсами";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+
+    <h1>Керування рейсами</h1>
+
+    <a asp-action="CreateTrip"
+       class="btn btn-success">
+
+        Додати рейс
+
+    </a>
+
+</div>
+
+
+@if (TempData["Success"] != null)
+{
+    <div class="alert alert-success">
+        @TempData["Success"]
+    </div>
+}
+
+@if (TempData["Error"] != null)
+{
+    <div class="alert alert-danger">
+        @TempData["Error"]
+    </div>
+}
+
+
+<table class="table table-bordered table-hover align-middle">
+
+    <thead class="table-dark">
+
+        <tr>
+            <th>Рейс</th>
+            <th>Маршрут</th>
+            <th>Потяг</th>
+            <th>Відправлення</th>
+            <th>Прибуття</th>
+            <th>Ціна</th>
+            <th>Дії</th>
+        </tr>
+
+    </thead>
+
+
+    <tbody>
+
+        @foreach (var trip in Model)
+        {
+            <tr>
+
+                <td>@trip.TripNumber</td>
+
+                <td>
+                    @trip.Route.StartStation
+                    →
+                    @trip.Route.EndStation
+                </td>
+
+                <td>
+                    @trip.Train.TrainNumber
+                </td>
+
+                <td>
+                    @trip.DepartureDate.ToString("dd.MM.yyyy HH:mm")
+                </td>
+
+                <td>
+                    @trip.ArrivalDate.ToString("dd.MM.yyyy HH:mm")
+                </td>
+
+                <td>
+                    @trip.BasePrice.ToString("0.00") грн
+                </td>
+
+                <td>
+
+                    <a asp-action="EditTrip"
+                       asp-route-id="@trip.Id"
+                       class="btn btn-sm btn-warning">
+
+                        Редагувати
+
+                    </a>
+                    <form asp-action="DeleteTrip"
+                          asp-route-id="@trip.Id"
+                          method="post"
+                          class="d-inline">
+
+                        @Html.AntiForgeryToken()
+
+                        <button type="submit"
+                                class="btn btn-sm btn-danger"
+                                onclick="return confirm('Ви впевнені, що хочете видалити цей рейс?');">
+
+                            Видалити
+
+                        </button>
+
+                    </form>
+
+                </td>
+
+            </tr>
+        }
+
+    </tbody>
+
+</table>
+
+
+<a asp-action="Index"
+   class="btn btn-secondary">
+
+    Назад
+
+</a>

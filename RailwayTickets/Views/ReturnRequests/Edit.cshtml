@@ -1,0 +1,51 @@
+﻿
+@model RailwayTickets.Models.ReturnRequest
+
+@{
+    ViewData["Title"] = "Редагування заявки";
+}
+
+<h2>Редагувати заявку на повернення</h2>
+
+<form asp-action="Edit" asp-route-id="@Model.Id" method="post">
+    @Html.AntiForgeryToken()
+
+    <div asp-validation-summary="All" class="text-danger"></div>
+
+    <div class="mb-3">
+        <label>Причина повернення</label>
+        <textarea name="reason" class="form-control"
+                  required>@Model.Reason</textarea>
+    </div>
+
+    <div class="mb-3">
+        <label>Касир</label>
+        <select name="cashierId" class="form-select">
+            <option value="">Без касира</option>
+
+            @foreach (var cashier in ViewBag.Cashiers)
+            {
+                if (Model.CashierId == cashier.Id)
+                {
+                    <option value="@cashier.Id" selected>
+                        @cashier.FullName
+                    </option>
+                }
+                else
+                {
+                    <option value="@cashier.Id">
+                        @cashier.FullName
+                    </option>
+                }
+            }
+        </select>
+    </div>
+
+    <button type="submit" class="btn btn-warning">
+        Зберегти зміни
+    </button>
+
+    <a asp-action="Index" class="btn btn-secondary">
+        Назад
+    </a>
+</form>

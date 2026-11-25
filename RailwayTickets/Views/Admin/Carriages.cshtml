@@ -1,0 +1,50 @@
+﻿
+@model IEnumerable<RailwayTickets.Models.Carriage>
+
+<h2>Керування вагонами</h2>
+
+<a asp-action="CreateCarriage" class="btn btn-success mb-3">
+    Додати вагон
+</a>
+
+<table class="table table-bordered table-hover">
+    <thead class="table-dark">
+        <tr>
+            <th>Номер</th>
+            <th>Тип</th>
+            <th>Місця</th>
+            <th>Потяг</th>
+            <th>Дії</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var carriage in Model)
+        {
+            <tr>
+                <td>@carriage.CarriageNumber</td>
+                <td>@carriage.CarriageType</td>
+                <td>@carriage.SeatCount</td>
+                <td>@carriage.Train.TrainNumber</td>
+                <td>
+                    <a asp-action="EditCarriage"
+                       asp-route-id="@carriage.Id"
+                       class="btn btn-sm btn-warning">
+                        Редагувати
+                    </a>
+
+                    <form asp-action="DeleteCarriage"
+                          asp-route-id="@carriage.Id"
+                          method="post" class="d-inline">
+                        @Html.AntiForgeryToken()
+                        <button class="btn btn-sm btn-danger"
+                                onclick="return confirm('Видалити вагон?')">
+                            Видалити
+                        </button>
+                    </form>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<a asp-action="Index" class="btn btn-secondary">Назад</a>

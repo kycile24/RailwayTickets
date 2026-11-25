@@ -1,0 +1,9 @@
+<h1>Вхід</h1>
+<form asp-action="Login" method="post" class="col-md-5">
+    <div asp-validation-summary="All" class="text-danger"></div>
+    <label class="form-label">Логін <input name="login" required class="form-control" autocomplete="username" /></label>
+    <label class="form-label">Пароль <input name="password" type="password" required class="form-control" autocomplete="current-password" /></label>
+    <p><label><input type="checkbox" name="staff" value="true" /> Я працівник залізниці</label></p>
+    <button class="btn btn-primary">Увійти</button>
+    <a asp-action="Register">Реєстрація клієнта</a>
+</form>

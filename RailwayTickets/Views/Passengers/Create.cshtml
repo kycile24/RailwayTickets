@@ -1,0 +1,31 @@
+﻿@model RailwayTickets.Models.Passenger
+
+@{
+    ViewData["Title"] = "Додати пасажира";
+}
+
+<h2>Додати пасажира</h2>
+
+<form asp-action="Create" method="post">
+    <div asp-validation-summary="All" class="text-danger"></div>
+
+    <input asp-for="FullName" class="form-control mb-2"
+           placeholder="ПІБ" />
+
+    <input asp-for="Phone" class="form-control mb-2"
+           placeholder="Телефон" />
+
+    <input asp-for="Email" class="form-control mb-2"
+           placeholder="Email" />
+
+    <input asp-for="Document" class="form-control mb-2"
+           placeholder="Документ" />
+
+    <button type="submit" class="btn btn-success">
+        Зберегти
+    </button>
+
+    <a asp-action="Index" class="btn btn-secondary">
+        Назад
+    </a>
+</form>

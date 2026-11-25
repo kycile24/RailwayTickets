@@ -1,0 +1,91 @@
+﻿@model IEnumerable<RailwayTickets.Models.Passenger>
+
+@{
+    ViewData["Title"] = "Пасажири";
+}
+<a asp-controller="Passengers"
+   asp-action="Create"
+   class="btn btn-success mb-3">
+    Додати пасажира
+</a>
+<h1>Пасажири</h1>
+
+<p class="text-muted">
+    Перелік пасажирів, які здійснювали бронювання квитків.
+</p>
+@if (TempData["Error"] != null)
+{
+    <div class="alert alert-danger">@TempData["Error"]</div>
+}
+@if (!Model.Any())
+{
+    <div class="alert alert-info">
+        Пасажирів поки немає.
+        Пасажир з'явиться після бронювання першого квитка.
+    </div>
+}
+else
+{
+    <table class="table table-bordered table-hover align-middle">
+
+        <thead class="table-dark">
+            <tr>
+                <th>№</th>
+                <th>ПІБ</th>
+                <th>Телефон</th>
+                <th>Email</th>
+                <th>Документ</th>
+                <th>Дії</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            @foreach (var passenger in Model)
+            {
+                <tr>
+                    <td>@passenger.Id</td>
+
+                    <td>@passenger.FullName</td>
+
+                    <td>@passenger.Phone</td>
+
+                    <td>
+                        @(string.IsNullOrEmpty(passenger.Email)
+                                        ? "—"
+                                        : passenger.Email)
+            </td>
+
+                    <td>@passenger.Document</td>
+
+                    <td>
+                        <a asp-controller="Passengers"
+                           asp-action="Details"
+                           asp-route-id="@passenger.Id"
+                           class="btn btn-sm btn-outline-primary">
+
+                            Детальніше
+
+                        </a>
+                    </td>
+                    <td>
+                        <a asp-action="Edit"
+                           asp-route-id="@passenger.Id"
+                           class="btn btn-sm btn-warning">
+                            Редагувати
+                        </a>
+                        <form asp-action="Delete" asp-route-id="@passenger.Id"
+                              method="post" class="d-inline">
+                            @Html.AntiForgeryToken()
+
+                            <button type="submit" class="btn btn-sm btn-danger"
+                                    onclick="return confirm('Видалити пасажира?')">
+                                Видалити
+                            </button>
+                        </form>
+                    </td>
+                </tr>
+                }
+        </tbody>
+
+    </table>
+}

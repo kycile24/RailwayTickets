@@ -1,0 +1,10 @@
+<h1>Реєстрація клієнта</h1>
+<form asp-action="Register" method="post" class="col-md-5">
+    <div asp-validation-summary="All" class="text-danger"></div>
+    <label>ПІБ <input name="fullName" required class="form-control" /></label>
+    <label>Телефон <input name="phone" required class="form-control" /></label>
+    <label>Документ <input name="document" required class="form-control" /></label>
+    <label>Логін <input name="login" maxlength="100" required class="form-control" /></label>
+    <label>Пароль <input type="password" name="password" minlength="8" required class="form-control" /></label>
+    <p><button class="btn btn-primary mt-3">Створити обліковий запис</button></p>
+</form>

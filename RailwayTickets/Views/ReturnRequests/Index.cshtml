@@ -1,0 +1,89 @@
+﻿
+@model IEnumerable<RailwayTickets.Models.ReturnRequest>
+
+@{
+    ViewData["Title"] = "Заявки на повернення";
+}
+
+<h2>Заявки на повернення</h2>
+<a asp-action="Create" class="btn btn-success mb-3">
+    Додати заявку
+</a>
+
+@if (TempData["Error"] != null)
+{
+    <div class="alert alert-danger">@TempData["Error"]</div>
+}
+
+<table class="table table-bordered table-hover">
+    <thead class="table-dark">
+        <tr>
+            <th>ID</th>
+            <th>Квиток</th>
+            <th>Пасажир</th>
+            <th>Причина</th>
+            <th>Дата</th>
+            <th>Статус</th>
+            <th>Касир</th>
+            <th>Дії</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        @foreach (var request in Model)
+        {
+            <tr>
+                <td>@request.Id</td>
+                <td>@request.Ticket?.TicketNumber</td>
+                <td>@request.Passenger?.FullName</td>
+                <td>@request.Reason</td>
+                <td>@request.RequestDate.ToString("dd.MM.yyyy HH:mm")</td>
+                <td>@request.Status</td>
+                <td>@(request.Cashier?.FullName ?? "—")</td>
+
+                <td>
+                    @if (User.IsInRole("Cashier") && request.Status == "Очікує")
+                    {
+                        <form asp-action="Approve"
+                              asp-route-id="@request.Id"
+                              method="post" class="d-inline">
+                            @Html.AntiForgeryToken()
+                            <button type="submit" class="btn btn-sm btn-success">
+                                Схвалити
+                            </button>
+                        </form>
+
+                        <form asp-action="Reject"
+                              asp-route-id="@request.Id"
+                              method="post" class="d-inline">
+                            @Html.AntiForgeryToken()
+                            <button type="submit" class="btn btn-sm btn-secondary">
+                                Відхилити
+                            </button>
+                        </form>
+                    }
+
+                    @if (!User.IsInRole("Client")) {
+                    <a asp-action="Edit"
+                       asp-route-id="@request.Id"
+                       class="btn btn-sm btn-warning">
+                        Редагувати
+                    </a>
+
+                    <form asp-action="Delete"
+                          asp-route-id="@request.Id"
+                          method="post" class="d-inline">
+                        @Html.AntiForgeryToken()
+
+                        <button type="submit"
+                                class="btn btn-sm btn-danger"
+                                onclick="return confirm('Видалити заявку?')">
+                            Видалити
+                        </button>
+                    </form>
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

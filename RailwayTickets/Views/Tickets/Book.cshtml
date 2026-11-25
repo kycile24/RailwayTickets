@@ -1,0 +1,215 @@
+﻿@model RailwayTickets.ViewModels.BookTicketViewModel
+
+@{
+    ViewData["Title"] = "Бронювання квитка";
+}
+
+<h1>Бронювання квитка</h1>
+
+<hr />
+
+
+<div class="card mb-4">
+
+    <div class="card-body">
+
+        <h5>
+            @Model.RouteName
+        </h5>
+
+        <p class="mb-1">
+            Рейс:
+            <strong>@Model.TripNumber</strong>
+        </p>
+
+        <p class="mb-1">
+            Відправлення:
+            @Model.DepartureDate.ToString("dd.MM.yyyy HH:mm")
+        </p>
+
+        <p class="mb-0">
+            Вартість:
+            <strong>@Model.Price.ToString("0.00") грн</strong>
+        </p>
+
+    </div>
+
+</div>
+
+
+<form asp-controller="Tickets"
+      asp-action="Book"
+      method="post">
+
+    @Html.AntiForgeryToken()
+
+    <input asp-for="TripId"
+           type="hidden" />
+
+
+    <div asp-validation-summary="ModelOnly"
+         class="text-danger mb-3">
+    </div>
+
+
+    <h4>Вибір місця</h4>
+
+    <div class="row mb-4">
+
+        <div class="col-md-6">
+
+            <label asp-for="CarriageNumber"
+                   class="form-label">
+            </label>
+
+            <select asp-for="CarriageNumber"
+                    class="form-select">
+
+                <option value="">
+                    Оберіть вагон
+                </option>
+
+                @foreach (var carriage in ViewBag.Carriages)
+                {
+                    <option value="@carriage.CarriageNumber">
+
+                        Вагон @carriage.CarriageNumber
+                        — @carriage.CarriageType
+                        (@carriage.SeatCount місць)
+
+                    </option>
+                }
+
+            </select>
+
+            <span asp-validation-for="CarriageNumber"
+                  class="text-danger">
+            </span>
+
+        </div>
+
+
+        <div class="col-md-6">
+
+            <label asp-for="SeatNumber"
+                   class="form-label">
+            </label>
+
+            <input asp-for="SeatNumber"
+                   class="form-control" />
+
+            <span asp-validation-for="SeatNumber"
+                  class="text-danger">
+            </span>
+
+        </div>
+
+    </div>
+
+
+    <h4>Пільга та послуги</h4>
+    <label>Студентський квиток (пільга 50% на проїзд)
+        <input asp-for="StudentCard" maxlength="24" class="form-control" />
+    </label><span asp-validation-for="StudentCard" class="text-danger"></span>
+    <p><label><input asp-for="Linen" /> Білизна (+60 грн)</label>
+       <label><input asp-for="Drink" /> Напій (+25 грн)</label></p>
+    <h4>Дані пасажира</h4>
+    @if (User.IsInRole("Cashier"))
+    {
+        <label>Логін зареєстрованого клієнта (якщо є)
+            <input asp-for="ClientLogin" class="form-control" />
+        </label><span asp-validation-for="ClientLogin" class="text-danger"></span>
+    }
+
+
+    <div class="mb-3">
+
+        <label asp-for="FullName"
+               class="form-label">
+        </label>
+
+        <input readonly="@(User.IsInRole("Client"))" asp-for="FullName"
+               class="form-control" />
+
+        <span asp-validation-for="FullName"
+              class="text-danger">
+        </span>
+
+    </div>
+
+
+    <div class="row">
+
+        <div class="col-md-6 mb-3">
+
+            <label asp-for="Phone"
+                   class="form-label">
+            </label>
+
+            <input readonly="@(User.IsInRole("Client"))" asp-for="Phone"
+                   class="form-control" />
+
+            <span asp-validation-for="Phone"
+                  class="text-danger">
+            </span>
+
+        </div>
+
+
+        <div class="col-md-6 mb-3">
+
+            <label asp-for="Email"
+                   class="form-label">
+            </label>
+
+            <input readonly="@(User.IsInRole("Client"))" asp-for="Email"
+                   class="form-control" />
+
+            <span asp-validation-for="Email"
+                  class="text-danger">
+            </span>
+
+        </div>
+
+    </div>
+
+
+    <div class="mb-4">
+
+        <label asp-for="Document"
+               class="form-label">
+        </label>
+
+        <input readonly="@(User.IsInRole("Client"))" asp-for="Document"
+               class="form-control" />
+
+        <span asp-validation-for="Document"
+              class="text-danger">
+        </span>
+
+    </div>
+
+
+    <button type="submit"
+            class="btn btn-success">
+
+        Забронювати квиток
+
+    </button>
+
+    <a asp-controller="Trips"
+       asp-action="Details"
+       asp-route-id="@Model.TripId"
+       class="btn btn-secondary">
+
+        Скасувати
+
+    </a>
+
+</form>
+
+
+@section Scripts
+{
+    <partial name="_ValidationScriptsPartial" />
+}

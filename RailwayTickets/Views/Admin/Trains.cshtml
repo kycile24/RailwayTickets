@@ -1,0 +1,89 @@
+﻿@model IEnumerable<RailwayTickets.Models.Train>
+
+@{
+    ViewData["Title"] = "Потяги";
+}
+
+<h1>Потяги</h1>
+
+<a asp-action="CreateTrain" class="btn btn-success mb-3">
+    Додати потяг
+</a>
+
+@if (TempData["Error"] != null)
+{
+    <div class="alert alert-danger">
+        @TempData["Error"]
+    </div>
+}
+
+<table class="table table-bordered table-hover">
+    <thead class="table-dark">
+        <tr>
+            <th>Номер</th>
+            <th>Тип</th>
+            <th>Кількість вагонів</th>
+            <th>Вагони</th>
+            <th>Дії</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        @foreach (var train in Model)
+        {
+            <tr>
+                <td>
+                    @train.TrainNumber
+                </td>
+
+                <td>
+                    @train.Type
+                </td>
+
+                <td>
+                    @train.CarriageCount
+                </td>
+
+                <td>
+                    @if (train.Carriages != null)
+                    {
+                        foreach (var carriage in train.Carriages)
+                        {
+                            <div>
+                                Вагон @carriage.CarriageNumber —
+                                @carriage.CarriageType,
+                                @carriage.SeatCount місць
+                            </div>
+                        }
+                    }
+                </td>
+
+                <td>
+                    <a asp-action="EditTrain"
+                       asp-route-id="@train.Id"
+                       class="btn btn-sm btn-warning">
+                        Редагувати
+                    </a>
+
+                    <form asp-action="DeleteTrain"
+                          asp-route-id="@train.Id"
+                          method="post"
+                          class="d-inline">
+
+                        @Html.AntiForgeryToken()
+
+                        <button type="submit"
+                                class="btn btn-sm btn-danger"
+                                onclick="return confirm('Видалити потяг?')">
+                            Видалити
+                        </button>
+                    </form>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<a asp-action="Index" class="btn btn-secondary">
+    Назад
+</a>

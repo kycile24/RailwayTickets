@@ -1,0 +1,53 @@
+﻿
+@model RailwayTickets.Models.Employee
+
+@{
+    ViewData["Title"] = "Редагувати працівника";
+}
+
+<h2>Редагувати працівника</h2>
+
+<form asp-controller="Admin"
+      asp-action="EditEmployee"
+      asp-route-id="@Model.Id"
+      method="post">
+
+    @Html.AntiForgeryToken()
+
+    <div asp-validation-summary="All"
+         class="text-danger"></div>
+
+    <div class="mb-3">
+        <label>ПІБ</label>
+        <input name="fullName"
+               value="@Model.FullName"
+               class="form-control"
+               required />
+    </div>
+
+    <div class="mb-3">
+        <label>Логін</label>
+        <input name="login"
+               value="@Model.Login"
+               class="form-control"
+               required />
+    </div>
+
+    <div class="mb-3">
+        <label>Пароль</label>
+        <input name="password"
+               type="password"
+               class="form-control"
+               required />
+    </div>
+
+    <button type="submit" class="btn btn-warning">
+        Зберегти зміни
+    </button>
+
+    <a asp-controller="Admin"
+       asp-action="Employees"
+       class="btn btn-secondary">
+        Назад
+    </a>
+</form>

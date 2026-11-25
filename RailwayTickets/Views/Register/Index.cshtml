@@ -1,0 +1,37 @@
+@model List<CashShift>
+<h1>Касові зміни та звіти</h1>
+@if (TempData["ShiftError"] is string message) { <p class="alert alert-warning">@message</p> }
+@if (User.IsInRole("Cashier") && !Model.Any(s => s.Closed == null))
+{
+    <form asp-action="Open" method="post"><button class="btn btn-primary">Відкрити зміну</button></form>
+}
+@foreach (var shift in Model)
+{
+    <section class="card p-3 mt-3">
+        <h2>Зміна №@shift.Id</h2>
+        <p>Касир №@shift.CashierId · Відкрито @shift.Opened · Закрито @(shift.Closed?.ToString() ?? "—")</p>
+        <table class="table"><thead><tr><th>Час</th><th>Квиток</th><th>Операція</th><th>Працівник</th><th>Сума, грн</th><th>Корекція</th></tr></thead><tbody>
+        @foreach (var entry in shift.Entries.OrderBy(e => e.Id))
+        {
+            <tr><td>@entry.Recorded</td><td><a asp-controller="Tickets" asp-action="Details" asp-route-id="@entry.TicketId">№@entry.TicketId</a></td>
+                <td>@entry.PreviousStatus → @entry.NewStatus</td><td>@entry.ActorId</td><td>@entry.Amount</td><td>
+                @if (entry.ReversesId != null) { <span>Анулювання №@entry.ReversesId · @entry.Reason</span> }
+                else if (User.IsInRole("Administrator") && shift.Approved == null && !shift.Entries.Any(e => e.ReversesId == entry.Id))
+                {
+                    <form asp-action="Reverse" asp-route-id="@entry.Id" method="post"><input name="reason" required placeholder="Причина" /><button>Анулювати №@entry.Id</button></form>
+                }</td></tr>
+        }
+        </tbody></table>
+        <p>Підсумок зміни: <strong>@shift.Entries.Sum(e => e.Amount) грн</strong></p>
+        @if (shift.Closed.HasValue) { <h3>Баланс місць на час закриття</h3><pre>@shift.SeatBalance</pre> }
+        @if (User.IsInRole("Cashier") && shift.Closed == null)
+        {
+            <form asp-action="Close" asp-route-id="@shift.Id" method="post"><button>Звірити місця і закрити зміну</button></form>
+        }
+        @if (User.IsInRole("Administrator") && shift.Closed != null && shift.Approved == null)
+        {
+            <form asp-action="Approve" asp-route-id="@shift.Id" method="post"><button>Затвердити звіт</button></form>
+        }
+        @if (shift.Approved.HasValue) { <p>Затвердив адміністратор №@shift.ApprovedBy · @shift.Approved</p> }
+    </section>
+}

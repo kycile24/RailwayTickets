@@ -1,0 +1,12 @@
+services:
+  - type: web
+    name: railwaytickets
+    runtime: docker
+    plan: free
+    dockerfilePath: ./Dockerfile
+    healthCheckPath: /
+    envVars:
+      - key: Database__Mode
+        value: Demo
+      - key: Bootstrap__AdminPassword
+        generateValue: true

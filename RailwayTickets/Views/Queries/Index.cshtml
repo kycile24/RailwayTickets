@@ -1,0 +1,34 @@
+@{ ViewData["Title"] = "Звіт про продажі"; }
+<h1>Звіт про продажі</h1>
+    <form method="get" asp-controller="Queries" asp-action="Index"
+          class="row g-3 mb-3">
+
+        <div class="col-md-4">
+            <label class="form-label">Дата від</label>
+            <input type="date"
+                   name="dateFrom"
+                   value="@ViewBag.DateFrom"
+                   class="form-control" />
+        </div>
+
+        <div class="col-md-4">
+            <label class="form-label">Дата до</label>
+            <input type="date"
+                   name="dateTo"
+                   value="@ViewBag.DateTo"
+                   class="form-control" />
+        </div>
+
+        <div class="col-md-4 d-flex align-items-end">
+            <button type="submit" class="btn btn-primary">
+                Розрахувати
+            </button>
+        </div>
+    </form>
+
+
+    <div class="alert alert-success">
+        Вартість оформлених та оплачених квитків за датою відправлення:
+        <strong>@ViewBag.TotalIncome грн</strong>
+    </div>
+

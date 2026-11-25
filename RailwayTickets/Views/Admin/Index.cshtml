@@ -1,0 +1,92 @@
+﻿@{
+    ViewData["Title"] = "Адміністратор";
+}
+
+<h1>Панель адміністратора</h1>
+<a class="btn btn-outline-primary" asp-action="OperationLog">Журнал змін</a>
+
+<p class="text-muted">
+    Керування залізничними рейсами та розкладом.
+</p>
+
+<hr />
+
+<div class="row g-3 mb-4">
+
+    <div class="col-md-3">
+        <div class="card text-center h-100">
+            <div class="card-body">
+                <h2>@ViewBag.TripsCount</h2>
+                <p>Рейсів</p>
+
+                <a asp-action="Trips"
+                   class="btn btn-outline-primary">
+                    Переглянути
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-3">
+        <div class="card text-center h-100">
+            <div class="card-body">
+                <h2>@ViewBag.TrainsCount</h2>
+                <p>Потягів</p>
+
+                <a asp-action="Trains"
+                   class="btn btn-outline-primary">
+                    Переглянути
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-3">
+        <div class="card text-center h-100">
+            <div class="card-body">
+                <h2>@ViewBag.RoutesCount</h2>
+                <p>Маршрутів</p>
+
+                <a asp-action="Routes"
+                   class="btn btn-outline-primary">
+                    Переглянути
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-3">
+        <div class="card text-center h-100">
+            <div class="card-body">
+                <h2>@ViewBag.TicketsCount</h2>
+                <p>Квитків</p>
+
+                <a asp-controller="Tickets"
+                   asp-action="Index"
+                   class="btn btn-outline-primary">
+                    Переглянути
+                </a>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<div class="d-flex flex-wrap gap-2 mb-3">
+
+    <a asp-action="CreateTrip"
+       class="btn btn-success">
+        Додати новий рейс
+    </a>
+
+    <a asp-action="Employees"
+       class="btn btn-primary">
+        Керування працівниками
+    </a>
+
+    <a asp-action="Carriages"
+       class="btn btn-primary">
+        Керування вагонами
+    </a>
+
+</div>

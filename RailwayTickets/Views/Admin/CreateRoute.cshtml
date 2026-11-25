@@ -1,0 +1,28 @@
+﻿
+@model RailwayTickets.Models.Route
+
+<h2>Додати маршрут</h2>
+
+<form asp-action="CreateRoute" method="post">
+    <div asp-validation-summary="All" class="text-danger"></div>
+
+    <input asp-for="RouteNumber" class="form-control mb-2"
+           placeholder="Номер маршруту" />
+
+    <input asp-for="Name" class="form-control mb-2"
+           placeholder="Назва маршруту" />
+
+    <input asp-for="StartStation" class="form-control mb-2"
+           placeholder="Станція відправлення" />
+
+    <input asp-for="EndStation" class="form-control mb-2"
+           placeholder="Станція прибуття" />
+
+    <button type="submit" class="btn btn-success">
+        Зберегти
+    </button>
+
+    <a asp-action="Routes" class="btn btn-secondary">
+        Назад
+    </a>
+</form>

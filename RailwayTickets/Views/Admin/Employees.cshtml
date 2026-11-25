@@ -1,0 +1,56 @@
+﻿
+@model IEnumerable<RailwayTickets.Models.Employee>
+
+<h2>Керування працівниками</h2>
+
+<a asp-action="CreateEmployee" class="btn btn-success mb-3">
+    Додати працівника
+</a>
+
+@if (TempData["Error"] != null)
+{
+    <div class="alert alert-danger">@TempData["Error"]</div>
+}
+
+<table class="table table-bordered table-hover">
+    <thead class="table-dark">
+        <tr>
+            <th>ID</th>
+            <th>ПІБ</th>
+            <th>Логін</th>
+            <th>Посада</th>
+            <th>Дії</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var employee in Model)
+        {
+            <tr>
+                <td>@employee.Id</td>
+                <td>@employee.FullName</td>
+                <td>@employee.Login</td>
+                <td>@(employee is RailwayTickets.Models.Cashier
+                    ? "Касир" : "Адміністратор")</td>
+                <td>
+                    <a asp-action="EditEmployee"
+                       asp-route-id="@employee.Id"
+                       class="btn btn-sm btn-warning">
+                        Редагувати
+                    </a>
+
+                    <form asp-action="DeleteEmployee"
+                          asp-route-id="@employee.Id"
+                          method="post" class="d-inline">
+                        @Html.AntiForgeryToken()
+                        <button type="submit" class="btn btn-sm btn-danger"
+                                onclick="return confirm('Видалити працівника?')">
+                            Видалити
+                        </button>
+                    </form>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<a asp-action="Index" class="btn btn-secondary">Назад</a>

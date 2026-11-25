@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>@ViewData["Title"] · RailwayTickets</title>
+    <meta name="theme-color" content="#102b3c" />
+    <meta name="description" content="Навчальна система керування залізничними рейсами, бронюванням квитків і касовими операціями." />
+
+    <link rel="stylesheet"
+          href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+
+    <link rel="stylesheet"
+          href="~/css/site.css"
+          asp-append-version="true" />
+</head>
+
+<body>
+
+    <header class="d-print-none">
+        <nav class="navbar navbar-expand-lg navbar-dark app-navbar">
+            <div class="container">
+
+                <a class="navbar-brand"
+                   asp-controller="Home"
+                   asp-action="Index">
+                    <span class="brand-mark" aria-hidden="true">R</span>
+                    <span>RailwayTickets</span>
+                </a>
+
+                <button class="navbar-toggler"
+                        type="button"
+                        data-bs-toggle="collapse"
+                        data-bs-target="#navbarMenu"
+                        aria-controls="navbarMenu"
+                        aria-expanded="false"
+                        aria-label="Відкрити навігацію">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <div class="collapse navbar-collapse" id="navbarMenu">
+
+                    <ul class="navbar-nav me-auto">
+
+                        <li class="nav-item">
+                            <a class="nav-link" asp-controller="Home" asp-action="Index">Огляд</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" asp-controller="Trips" asp-action="Index">Рейси</a>
+                        </li>
+                        @if (User.Identity?.IsAuthenticated == true)
+                        {
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Мої поїздки</a>
+                                <ul class="dropdown-menu">
+                                    <li><a class="dropdown-item" asp-controller="Tickets" asp-action="Index">Мої квитки</a></li>
+                                    <li><a class="dropdown-item" asp-controller="ReturnRequests" asp-action="Index">Повернення квитка</a></li>
+                                </ul>
+                            </li>
+                        }
+                        @if (User.IsInRole("Cashier") || User.IsInRole("Administrator"))
+                        {
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Робоче місце</a>
+                                <ul class="dropdown-menu">
+                                    @if (User.IsInRole("Cashier"))
+                                    {
+                                        <li><a class="dropdown-item" asp-controller="Cashier" asp-action="Index">Каса</a></li>
+                                    }
+                                    <li><a class="dropdown-item" asp-controller="Register" asp-action="Index">Касові зміни</a></li>
+                                    <li><a class="dropdown-item" asp-controller="Passengers" asp-action="Index">Пасажири</a></li>
+                                    @if (User.IsInRole("Administrator"))
+                                    {
+                                        <li><hr class="dropdown-divider" /></li>
+                                        <li><a class="dropdown-item" asp-controller="Admin" asp-action="Index">Керування системою</a></li>
+                                        <li><a class="dropdown-item" asp-controller="Queries" asp-action="Index">Звіт про продажі</a></li>
+                                    }
+                                </ul>
+                            </li>
+                        }
+                    </ul>
+                    <div class="navbar-account">
+                        @if (User.Identity?.IsAuthenticated == true)
+                        {
+                            <span class="navbar-account-name">@User.Identity.Name</span>
+                            <form asp-controller="Account" asp-action="Logout" method="post">
+                                <button class="btn btn-sm btn-outline-light">Вийти</button>
+                            </form>
+                        }
+                        else
+                        {
+                            <a class="btn btn-sm btn-primary" asp-controller="Account" asp-action="Login">Увійти</a>
+                        }
+                    </div>
+
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <div class="page-shell">
+        <main role="main">
+            @RenderBody()
+        </main>
+    </div>
+
+    <footer class="d-print-none border-top footer text-muted">
+        <div class="container">
+            <span>RailwayTickets <span aria-hidden="true">·</span> система керування залізничними квитками</span>
+        </div>
+    </footer>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+
+    @await RenderSectionAsync("Scripts", required: false)
+
+</body>
+</html>

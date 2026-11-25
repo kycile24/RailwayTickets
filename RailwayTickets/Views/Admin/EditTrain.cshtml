@@ -1,0 +1,23 @@
+﻿@model RailwayTickets.Models.Train
+
+<h2>Редагувати потяг</h2>
+
+<form asp-action="EditTrain" method="post">
+    <div asp-validation-summary="All" class="text-danger"></div>
+    <input type="hidden" asp-for="Id" />
+
+    <label>Номер потяга</label>
+    <input asp-for="TrainNumber" class="form-control mb-2" />
+
+    <label>Тип потяга</label>
+    <input asp-for="Type" class="form-control mb-2" />
+
+    <label>Кількість вагонів</label>
+    <input asp-for="CarriageCount" type="number"
+           class="form-control mb-2" />
+
+    <button type="submit" class="btn btn-warning">
+        Зберегти зміни
+    </button>
+    <a asp-action="Trains" class="btn btn-secondary">Назад</a>
+</form>
