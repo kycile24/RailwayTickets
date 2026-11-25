@@ -1,4 +1,4 @@
-# RailwayTickets
+[![RailwayTickets — Passenger booking](docs/cover.svg)](https://railwaytickets-kycile24.onrender.com/Trips)
 
 A railway booking application built with ASP.NET Core MVC. A passenger reserves a seat, a cashier issues the ticket, and an administrator reconciles the shift.
 
@@ -8,7 +8,7 @@ Use **УКР / EN** in the navigation bar to switch languages. Your browser reme
 
 ## Try a booking
 
-Open the Kyiv → Lviv trip to inspect its carriages, seats, and fares. To reserve a seat, register a passenger account using fictional details. The public demo uses SQLite and restores its sample schedule and tickets when Render replaces the container.
+Use **Swap stations** to search the return direction. Open the Kyiv → Lviv trip to inspect its carriages, seats, and fares. To reserve a seat, register a passenger account using fictional details. The public demo uses SQLite and restores its sample schedule and tickets when Render replaces the container.
 
 | Workspace | What you can do |
 | --- | --- |
