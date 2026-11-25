@@ -74,7 +74,15 @@
 
             </div>
 
+            <button type="button" id="swapStations" class="btn btn-link px-0 mt-2">⇄ @(Ui.Pick("Поміняти станції місцями", "Swap stations"))</button>
         </form>
+        <script>
+            document.getElementById("swapStations").addEventListener("click", function () {
+                const fields = this.form.elements;
+                [fields.startStation.value, fields.endStation.value] = [fields.endStation.value, fields.startStation.value];
+                fields.startStation.focus();
+            });
+        </script>
 
     </div>
 

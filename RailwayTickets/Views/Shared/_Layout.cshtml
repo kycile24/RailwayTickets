@@ -29,6 +29,11 @@
                     <span>RailwayTickets</span>
                 </a>
 
+                <form asp-controller="Language" asp-action="Set" method="post" class="btn-group" aria-label="Language / Мова">
+                            <input type="hidden" name="returnUrl" value="@(Context.Request.PathBase + Context.Request.Path + Context.Request.QueryString)" />
+                            <button name="language" value="uk" lang="uk" class="btn btn-sm @(Ui.English ? "btn-outline-light" : "btn-light")">УКР</button>
+                            <button name="language" value="en" lang="en" class="btn btn-sm @(Ui.English ? "btn-light" : "btn-outline-light")">English</button>
+                        </form>
                 <button class="navbar-toggler"
                         type="button"
                         data-bs-toggle="collapse"
@@ -81,11 +86,7 @@
                         }
                     </ul>
                     <div class="navbar-account">
-                        <form asp-controller="Language" asp-action="Set" method="post" class="btn-group" aria-label="Language / Мова">
-                            <input type="hidden" name="returnUrl" value="@(Context.Request.PathBase + Context.Request.Path + Context.Request.QueryString)" />
-                            <button name="language" value="uk" lang="uk" class="btn btn-sm @(Ui.English ? "btn-outline-light" : "btn-light")">УКР</button>
-                            <button name="language" value="en" lang="en" class="btn btn-sm @(Ui.English ? "btn-light" : "btn-outline-light")">EN</button>
-                        </form>
+                        
                         @if (User.Identity?.IsAuthenticated == true)
                         {
                             <span class="navbar-account-name">@User.Identity.Name</span>
