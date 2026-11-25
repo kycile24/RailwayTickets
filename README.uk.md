@@ -1,12 +1,14 @@
-# RailwayTickets
+[English](README.md) · **Українська**
+
+[![RailwayTickets — бронювання квитків](docs/cover.svg)](https://railwaytickets-kycile24.onrender.com/Trips)
 
 Система бронювання залізничних квитків на ASP.NET Core MVC. Пасажир обирає рейс і місце, касир оформлює квиток, а адміністратор перевіряє операції закритої зміни.
 
-**[Відкрити розклад](https://railwaytickets-kycile24.onrender.com/Trips)** · [English](README.md)
+**[Відкрити розклад](https://railwaytickets-kycile24.onrender.com/Trips)**
 
 ## Спробувати демо
 
-Відкрий рейс Київ → Львів і переглянь вагони, місця та вартість. Для бронювання створи демоакаунт із вигаданими даними. Публічне демо працює на SQLite. При заміні контейнера Render відновлює початкові рейси та квитки.
+Вибери **УКР** або **English** у шапці. Кнопка **Поміняти станції місцями** допоможе знайти зворотний рейс. Відкрий рейс Київ → Львів і переглянь вагони, місця та вартість. Для бронювання створи демоакаунт із вигаданими даними. Публічне демо працює на SQLite. При заміні контейнера Render відновлює початкові рейси та квитки.
 
 | Роль | Можливості |
 | --- | --- |
@@ -31,6 +33,6 @@ export Bootstrap__AdminPassword
 docker run --rm -p 8080:10000 -e Bootstrap__AdminPassword railwaytickets
 ```
 
-**Stack** · C# / .NET 10 · Razor MVC · EF Core · SQL Server / SQLite · Docker · Render
+**Технології** · C# / .NET 10 · Razor MVC · EF Core · SQL Server / SQLite · Docker · Render
 
-Інший проєкт · [Warehouse Management API](https://github.com/kycile24/wms-api)
+Інший проєкт · [Warehouse Management API](https://github.com/kycile24/wms-api/blob/master/README.uk.md)

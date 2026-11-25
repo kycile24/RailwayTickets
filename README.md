@@ -1,8 +1,10 @@
+**English** · [Українська](README.uk.md)
+
 [![RailwayTickets — Passenger booking](docs/cover.svg)](https://railwaytickets-kycile24.onrender.com/Trips)
 
 A railway booking application built with ASP.NET Core MVC. A passenger reserves a seat, a cashier issues the ticket, and an administrator reconciles the shift.
 
-**[Explore the live timetable](https://railwaytickets-kycile24.onrender.com/Trips)** · [Українською](README.uk.md)
+**[Explore the live timetable](https://railwaytickets-kycile24.onrender.com/Trips)**
 
 Use **УКР / EN** in the navigation bar to switch languages. Your browser remembers the selection.
 
